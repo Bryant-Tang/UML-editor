@@ -1,30 +1,40 @@
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import java.awt.Component;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 public class App {
-    private static void createAndShowGUI() {
-        // 创建 JFrame 实例
+    private static void createApp() {
         JFrame frame = new JFrame("UML editor");
-        // Setting the width and height of frame
-        frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        UMLMenuBar menuBar = new UMLMenuBar(frame);
-        JPanel rootPanel = new JPanel();
-        rootPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        frame.add(rootPanel);
-        UMLFunctionalButtonPanel buttonPanel = new UMLFunctionalButtonPanel(rootPanel);
-        UMLCanvasAreaPanel canvasAreaPanel = new UMLCanvasAreaPanel(rootPanel);
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+        UMLMenuBarController UMLMenuBar = new UMLMenuBarController(menuBar);
 
+        JPanel contentPane = new JPanel(new BorderLayout(5, 5));
+        frame.setContentPane(contentPane);
+
+        JPanel buttonPane = new JPanel(new BorderLayout(5, 5));
+        contentPane.add(buttonPane, BorderLayout.LINE_START);
+        UMLButtonPaneController UMLButtonPane = new UMLButtonPaneController(buttonPane);
+
+        JLayeredPane canvasPane = new JLayeredPane();
+        contentPane.add(canvasPane, BorderLayout.CENTER);
+        UMLCanvasPaneController UMLCanvasPane = new UMLCanvasPaneController(canvasPane);
+
+        frame.setSize(new Dimension(960, 640));
+        frame.setMinimumSize(new Dimension(640,640));
         frame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        // 显示应用 GUI
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+                createApp();
             }
         });
     }
