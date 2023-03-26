@@ -14,6 +14,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 class Oval extends JPanel {
     Oval() {
@@ -41,9 +42,12 @@ public class BasicObject extends JLayeredPane {
     JPanel leftPoint;
     JLayeredPane contentPane;
     private Boolean directionPointVisible = true;
+    ArrayList<ConnectObject> connectLines;
+    CompositeObject belongGroup = null;
 
     BasicObject() {
         super();
+        connectLines = new ArrayList<>();
         setOpaque(false);
         upPoint = new JPanel();
         upPoint.setSize(new Dimension(10, 10));
@@ -62,7 +66,7 @@ public class BasicObject extends JLayeredPane {
         leftPoint.setBackground(Color.BLACK);
 
         contentPane = new JLayeredPane();
-        contentPane.setSize(new Dimension(getSize().width - 10, getSize().height - 10));
+        contentPane.setSize(new Dimension(getWidth() - 10, getHeight() - 10));
 
         this.setLayout(null);
         add(upPoint);
@@ -75,12 +79,54 @@ public class BasicObject extends JLayeredPane {
         setDirectionPointVisible(false);
     }
 
+    Boolean pointIsIn(Point p) {
+        if (this.getX() <= p.x && p.x <= (this.getX() + this.getWidth()) && this.getY() <= p.y
+                && p.y <= (this.getY() + this.getHeight())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    Boolean isInRange(Point aPoint, Point bPoint) {
+        Point leftTop = new Point(Math.min(aPoint.x, bPoint.x), Math.min(aPoint.y, bPoint.y));
+        Point rightBtm = new Point(Math.max(aPoint.x, bPoint.x), Math.max(aPoint.y, bPoint.y));
+        if (this.getX() >= leftTop.x && this.getY() >= leftTop.y && this.getX() + this.getWidth() <= rightBtm.x
+                && this.getY() + this.getHeight() <= rightBtm.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void moveWithConnectLine(Point p) {
+        Boolean visible = this.directionPointVisible;
+        this.setDirectionPointVisible(false);
+        this.setLocation(p.x, p.y);
+        this.reLocateConnectLine();
+        this.setDirectionPointVisible(visible);
+    }
+
+    void addLine(ConnectObject line) {
+        connectLines.add(line);
+    }
+
+    void removeLine(ConnectObject line) {
+        connectLines.remove(line);
+    }
+
+    void reLocateConnectLine() {
+        for (ConnectObject line : connectLines) {
+            line.adjustLine();
+        }
+    }
+
     void setDirectionPointVisible(boolean visible) {
         if (visible != directionPointVisible) {
             if (visible) {
-                this.setLocation(this.getLocation().x - 10, this.getLocation().y - 10);
+                this.setLocation(this.getX() - 10, this.getY() - 10);
             } else {
-                this.setLocation(this.getLocation().x + 10, this.getLocation().y + 10);
+                this.setLocation(this.getX() + 10, this.getY() + 10);
             }
         }
         directionPointVisible = visible;
@@ -97,10 +143,10 @@ public class BasicObject extends JLayeredPane {
     }
 
     void setDirectionPointLocation() {
-        upPoint.setLocation((getSize().width / 2) - 5, 0);
-        rightPoint.setLocation(getSize().width - 10, (getSize().height / 2) - 5);
-        downPoint.setLocation((getSize().width / 2) - 5, getSize().height - 10);
-        leftPoint.setLocation(0, (getSize().height / 2) - 5);
+        upPoint.setLocation((getWidth() / 2) - 5, 0);
+        rightPoint.setLocation(getWidth() - 10, (getHeight() / 2) - 5);
+        downPoint.setLocation((getWidth() / 2) - 5, getHeight() - 10);
+        leftPoint.setLocation(0, (getHeight() / 2) - 5);
         if (directionPointVisible) {
             contentPane.setLocation(10, 10);
         } else {
@@ -119,32 +165,56 @@ public class BasicObject extends JLayeredPane {
         setDirectionPointLocation();
     }
 
-    Point atWhichDirectionPoint(Point p) {
-        Point upLocation = new Point(upPoint.getLocation().x + (upPoint.getSize().width / 2),
-                upPoint.getLocation().y + (upPoint.getSize().height / 2));
-        Point rightLocation = new Point(rightPoint.getLocation().x + (rightPoint.getSize().width / 2),
-                rightPoint.getLocation().y + (rightPoint.getSize().height / 2));
-        Point downLocation = new Point(downPoint.getLocation().x + (downPoint.getSize().width / 2),
-                downPoint.getLocation().y + (downPoint.getSize().height / 2));
-        Point leftLocation = new Point(leftPoint.getLocation().x + (leftPoint.getSize().width / 2),
-                leftPoint.getLocation().y + (leftPoint.getSize().height / 2));
+    Point getDirectionPoint(int direction) {
+        Point upLocation = new Point(contentPane.getX() + (contentPane.getWidth() / 2),
+                contentPane.getY());
+        Point rightLocation = new Point(contentPane.getX() + (contentPane.getWidth()),
+                contentPane.getY() + (contentPane.getHeight() / 2));
+        Point downLocation = new Point(contentPane.getX() + (contentPane.getWidth() / 2),
+                contentPane.getY() + (contentPane.getHeight()));
+        Point leftLocation = new Point(contentPane.getX(),
+                contentPane.getY() + (contentPane.getHeight() / 2));
+        if (direction == Direction.UP) {
+            return new Point(upLocation.x + this.getX(), upLocation.y + this.getY());
+        } else if (direction == Direction.RIGHT) {
+            return new Point(rightLocation.x + this.getX(), rightLocation.y + this.getY());
+        } else if (direction == Direction.DOWN) {
+            return new Point(downLocation.x + this.getX(), downLocation.y + this.getY());
+        } else if (direction == Direction.LEFT) {
+            return new Point(leftLocation.x + this.getX(), leftLocation.y + this.getY());
+        } else {
+            return null;
+        }
+    }
+
+    int atWhichDirection(Point p) {
+        p = new Point(p.x - this.getX(), p.y - this.getY());
+
+        Point upLocation = new Point(contentPane.getX() + (contentPane.getWidth() / 2),
+                contentPane.getY());
+        Point rightLocation = new Point(contentPane.getX() + (contentPane.getWidth()),
+                contentPane.getY() + (contentPane.getHeight() / 2));
+        Point downLocation = new Point(contentPane.getX() + (contentPane.getWidth() / 2),
+                contentPane.getY() + (contentPane.getHeight()));
+        Point leftLocation = new Point(contentPane.getX(),
+                contentPane.getY() + (contentPane.getHeight() / 2));
 
         double shortestDistance = p.distance((Point2D) upLocation);
-        Point shortestDirectionPoint = upLocation;
-
+        int shortestDirection = Direction.UP;
         if (p.distance((Point2D) rightLocation) < shortestDistance) {
-            shortestDirectionPoint = rightLocation;
+            shortestDirection = Direction.RIGHT;
             shortestDistance = p.distance((Point2D) rightLocation);
         }
         if (p.distance((Point2D) downLocation) < shortestDistance) {
-            shortestDirectionPoint = downLocation;
+            shortestDirection = Direction.DOWN;
             shortestDistance = p.distance((Point2D) downLocation);
         }
         if (p.distance((Point2D) leftLocation) < shortestDistance) {
-            shortestDirectionPoint = leftLocation;
+            shortestDirection = Direction.LEFT;
             shortestDistance = p.distance((Point2D) leftLocation);
         }
-        return shortestDirectionPoint;
+
+        return shortestDirection;
     }
 }
 
@@ -153,6 +223,7 @@ class ClassObject extends BasicObject {
 
     ClassObject(Point position) {
         super();
+
         contentPane.setOpaque(false);
         contentPane.setLayout(null);
 
@@ -170,22 +241,23 @@ class ClassObject extends BasicObject {
         JPanel mid = new JPanel();
         mid.setBorder(BorderFactory.createMatteBorder(1, 2, 1, 2, Color.BLACK));
         mid.setSize(top.getPreferredSize());
-        mid.setLocation(0, top.getSize().height);
+        mid.setLocation(0, top.getHeight());
 
         JPanel btm = new JPanel();
         btm.setBorder(BorderFactory.createMatteBorder(1, 2, 2, 2, Color.BLACK));
         btm.setSize(top.getPreferredSize());
-        btm.setLocation(0, top.getSize().height + mid.getSize().height);
+        btm.setLocation(0, top.getHeight() + mid.getHeight());
 
         contentPane.add(top);
         contentPane.add(mid);
         contentPane.add(btm);
         contentPane.setPreferredSize(
-                new Dimension(top.getSize().width, top.getSize().height + mid.getSize().height + btm.getSize().height));
+                new Dimension(top.getWidth(), top.getHeight() + mid.getHeight() + btm.getHeight()));
         contentPane.setSize(contentPane.getPreferredSize());
 
-        setLocation(position);
+        this.setLocation(position);
         setSizeAuto();
+
     }
 }
 
@@ -206,8 +278,8 @@ class UseCaseObject extends BasicObject {
         oval.setSize(oval.getPreferredSize());
 
         oval.setLocation(0, 0);
-        nameLabel.setLocation((oval.getSize().width - nameLabel.getSize().width) / 2,
-                (oval.getSize().height - nameLabel.getSize().height) / 2);
+        nameLabel.setLocation((oval.getWidth() - nameLabel.getWidth()) / 2,
+                (oval.getHeight() - nameLabel.getHeight()) / 2);
 
         contentPane.add(nameLabel, BorderLayout.CENTER, highestLayer());
         contentPane.add(oval, BorderLayout.CENTER, lowestLayer() - 1);

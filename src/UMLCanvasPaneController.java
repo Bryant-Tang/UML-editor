@@ -4,6 +4,7 @@ import javax.swing.JLayeredPane;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.awt.Point;
 import java.awt.Color;
 import java.awt.Component;
@@ -13,17 +14,18 @@ public class UMLCanvasPaneController {
     Mode mode;
     CanvasPaneListener listener;
 
-    UMLCanvasPaneController(JLayeredPane canvasPane, Mode mode) {
+    UMLCanvasPaneController(JLayeredPane canvasPane, Mode mode, ArrayList<BasicObject> selectComponent,
+            ArrayList<CompositeObject> selectGroup) {
         this.canvasPane = canvasPane;
         this.mode = mode;
-        initialize();
+        initialize(selectComponent, selectGroup);
     }
 
-    private void initialize() {
+    private void initialize(ArrayList<BasicObject> selectComponent, ArrayList<CompositeObject> selectGroup) {
         canvasPane.setLayout(null);
         canvasPane.setBorder(BorderFactory.createTitledBorder("Canvas Area"));
         canvasPane.setBackground(Color.WHITE);
-        listener = new CanvasPaneListener(canvasPane, mode);
+        listener = new CanvasPaneListener(canvasPane, mode, selectComponent, selectGroup);
         canvasPane.addMouseListener(listener);
         canvasPane.addMouseMotionListener(listener);
     }
@@ -32,73 +34,149 @@ public class UMLCanvasPaneController {
 class CanvasPaneListener implements MouseListener, MouseMotionListener {
     JLayeredPane canvasPane;
     Mode mode;
-    BasicObject tempComponent;
-    Point tempDirectionPoint;
-    boolean componentSelectSucess;
+    ArrayList<BasicObject> selectComponent;
+    ArrayList<Point> selectPoint = new ArrayList<>();
+    ArrayList<CompositeObject> selectGroup;
+    Boolean pressSelectSucess;
+    Boolean releaseSelectSucess;
+    JLayeredPane groupSelectPane;
 
-    CanvasPaneListener(JLayeredPane canvasPane, Mode mode) {
+    CanvasPaneListener(JLayeredPane canvasPane, Mode mode, ArrayList<BasicObject> selectComponent,
+            ArrayList<CompositeObject> selectGroup) {
         this.canvasPane = canvasPane;
         this.mode = mode;
+        this.selectComponent = selectComponent;
+        this.selectGroup = selectGroup;
+        groupSelectPane = new JLayeredPane();
+        canvasPane.add(groupSelectPane);
     }
 
     void createClassObject(Point position) {
         ClassObject temp = new ClassObject(position);
-        canvasPane.add(temp, canvasPane.highestLayer());
+        temp.setLayer(temp, canvasPane.highestLayer() + 1);
+
+        canvasPane.add(temp);
         canvasPane.repaint();
     }
 
     void createUseCaseObject(Point position) {
         UseCaseObject temp = new UseCaseObject(position);
-        canvasPane.add(temp, canvasPane.highestLayer());
+        temp.setLayer(temp, canvasPane.highestLayer() + 1);
+        canvasPane.add(temp);
         canvasPane.repaint();
     }
 
-    void createAssociaitonObject(BasicObject componentA, Point directionPointA, BasicObject componentB,
-            Point directionPointB) {
+    void createAssociaitonObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
         System.out.println("creating line...");
-        ConnectObject temp = new ConnectObject(directionPointA, directionPointB);
-        temp.setLocation(Math.min(directionPointA.x, directionPointB.x),
-                Math.min(directionPointA.y, directionPointB.y));
-        canvasPane.add(temp, Math.min(canvasPane.getLayer(componentA), canvasPane.getLayer(componentB)) - 1);
+        ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
+                new AssociationLineArrow(Direction.getoOpposite(directionB)));
+        temp.setLayer(temp, canvasPane.lowestLayer() - 1);
+        canvasPane.add(temp);
         canvasPane.repaint();
+    }
+
+    void createGeneralizationObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
+        System.out.println("creating line...");
+        ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
+                new GeneralizationLineArrow(Direction.getoOpposite(directionB)));
+        temp.setLayer(temp, canvasPane.lowestLayer() - 1);
+        canvasPane.add(temp);
+        canvasPane.repaint();
+    }
+
+    void createCompositionObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
+        System.out.println("creating line...");
+        ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
+                new CompositionLineArrow(Direction.getoOpposite(directionB)));
+        temp.setLayer(temp, canvasPane.lowestLayer() - 1);
+        canvasPane.add(temp);
+        canvasPane.repaint();
+    }
+
+    void setAllVisible(Boolean visible) {
+        for (Component comp : canvasPane.getComponents()) {
+            if (comp instanceof BasicObject) {
+                ((BasicObject) comp).setDirectionPointVisible(false);
+            }
+        }
+    }
+
+    void clearSelectComponent() {
+        selectComponent.clear();
+        selectPoint.clear();
+        selectGroup.clear();
+        pressSelectSucess = false;
+        releaseSelectSucess = false;
+    }
+
+    BasicObject singleSelect(Point p) {
+        BasicObject tempComponent = null;
+        for (Component comp : canvasPane.getComponents()) {
+            if (comp instanceof BasicObject) {
+                if (((BasicObject) comp).pointIsIn(p)) {
+                    if (tempComponent == null
+                            || JLayeredPane.getLayer((BasicObject) comp) > JLayeredPane.getLayer(tempComponent)) {
+                        tempComponent = (BasicObject) comp;
+                    }
+                }
+            }
+        }
+        if (tempComponent != null && tempComponent.belongGroup != null) {
+            if (!selectGroup.contains(tempComponent.belongGroup.getRoot())) {
+                selectGroup.add(tempComponent.belongGroup.getRoot());
+            }
+        }
+        return tempComponent;
+    }
+
+    ArrayList<BasicObject> groupSelect(Point aPoint, Point bPoint) {
+        ArrayList<BasicObject> tempSelect = new ArrayList<>();
+        for (Component comp : canvasPane.getComponents()) {
+            if (comp instanceof BasicObject) {
+                if (((BasicObject) comp).isInRange(aPoint, bPoint)) {
+                    tempSelect.add((BasicObject) comp);
+                }
+            }
+        }
+
+        for (BasicObject comp : tempSelect) {
+            if (comp.belongGroup != null) {
+                if (tempSelect.containsAll(comp.belongGroup.getRoot().getAllBasic())) {
+                    if (!selectGroup.contains(comp.belongGroup.getRoot())) {
+                        selectGroup.add(comp.belongGroup.getRoot());
+                    }
+                }
+            }
+        }
+        return tempSelect;
+    }
+
+    void moveAll(ArrayList<BasicObject> tempSelect, BasicObject dragedComponent, Point p) {
+        int xDisplacement = p.x - dragedComponent.getX();
+        int yDisplacement = p.y - dragedComponent.getY();
+        for (BasicObject comp : tempSelect) {
+            comp.moveWithConnectLine(new Point(comp.getX() + xDisplacement, comp.getY() + yDisplacement));
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (mode.mode == Mode.SELECT) {
-            if (canvasPane.getComponentAt(e.getX(), e.getY()) == canvasPane) {
-                for (Component comp : canvasPane.getComponents()) {
-                    ((BasicObject) comp).setDirectionPointVisible(false);
-                }
-            } else if (componentSelectSucess) {
-                BasicObject target = (BasicObject) canvasPane.getComponentAt(e.getX(), e.getY());
-                for (Component comp : canvasPane.getComponents()) {
-                    ((BasicObject) comp).setDirectionPointVisible(false);
-                }
-                target.setDirectionPointVisible(true);
+            setAllVisible(false);
+            if (pressSelectSucess && releaseSelectSucess) {
+                selectComponent.get(0).setDirectionPointVisible(true);
             }
         } else if (mode.mode == Mode.CLASS) {
             createClassObject(e.getPoint());
-            // createAssociaitonObject(e.getPoint(), new Point(e.getPoint().x + 100,
-            // e.getPoint().y + 100));
         } else if (mode.mode == Mode.USE_CASE) {
             createUseCaseObject(e.getPoint());
-        } else if (mode.mode == Mode.ASSOCIATION) {
-            if (componentSelectSucess) {
-                createClassObject(tempDirectionPoint);
-            }
+        } else {
+            setAllVisible(false);
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (mode.mode != Mode.SELECT) {
-            for (Component comp : canvasPane.getComponents()) {
-                if (comp instanceof BasicObject) {
-                    ((BasicObject) comp).setDirectionPointVisible(false);
-                }
-            }
-        }
     }
 
     @Override
@@ -107,50 +185,72 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (canvasPane.getComponentAt(e.getX(), e.getY()) instanceof BasicObject) {
-            tempComponent = (BasicObject) canvasPane.getComponentAt(e.getX(), e.getY());
-            tempDirectionPoint = tempComponent.atWhichDirectionPoint(
-                    new Point(e.getPoint().x - tempComponent.getLocation().x,
-                            e.getPoint().y - tempComponent.getLocation().y));
-            tempDirectionPoint.setLocation(tempDirectionPoint.x + tempComponent.getLocation().x,
-                    tempDirectionPoint.y + tempComponent.getLocation().y);
-            componentSelectSucess = true;
-            System.out.println("componentSelectSucess");
+        clearSelectComponent();
+        selectPoint.add(e.getPoint());
+        BasicObject tempSelect = singleSelect(e.getPoint());
+        if (!selectGroup.isEmpty()) {
+            selectComponent.add(tempSelect);
+            pressSelectSucess = false;
+        } else if (tempSelect == null) {
+            pressSelectSucess = false;
         } else {
-            componentSelectSucess = false;
+            selectComponent.add(tempSelect);
+            pressSelectSucess = true;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (canvasPane.getComponentAt(e.getX(), e.getY()) instanceof BasicObject) {
-            System.out.println("componentSelectSucess");
-            BasicObject temp2Component = (BasicObject) canvasPane.getComponentAt(e.getX(), e.getY());
-            Point temp2DirectionPoint = temp2Component.atWhichDirectionPoint(
-                    new Point(e.getPoint().x - temp2Component.getLocation().x,
-                            e.getPoint().y - temp2Component.getLocation().y));
-            temp2DirectionPoint.setLocation(temp2DirectionPoint.x + temp2Component.getLocation().x,
-                    temp2DirectionPoint.y + temp2Component.getLocation().y);
-            if (componentSelectSucess) {
-                if (mode.mode == Mode.ASSOCIATION) {
-                    createAssociaitonObject(tempComponent, tempDirectionPoint, temp2Component, temp2DirectionPoint);
-                } else if (mode.mode == Mode.GENERALIZATION) {
-                    createAssociaitonObject(tempComponent, tempDirectionPoint, temp2Component, temp2DirectionPoint);
-                } else if (mode.mode == Mode.COMPOSITION) {
-                    createAssociaitonObject(tempComponent, tempDirectionPoint, temp2Component, temp2DirectionPoint);
-                }
+        selectPoint.add(e.getPoint());
+        BasicObject tempSelect = singleSelect(e.getPoint());
+        if (selectGroup.isEmpty() && tempSelect != null) {
+            selectComponent.add(tempSelect);
+            releaseSelectSucess = true;
+        } else {
+            releaseSelectSucess = false;
+        }
+
+        if (pressSelectSucess && releaseSelectSucess && !(selectComponent.get(0).equals(selectComponent.get(1)))) {
+            if (mode.mode == Mode.ASSOCIATION) {
+                createAssociaitonObject(selectComponent.get(0), selectComponent.get(1),
+                        selectComponent.get(0).atWhichDirection(selectPoint.get(0)),
+                        selectComponent.get(1).atWhichDirection(selectPoint.get(1)));
+            } else if (mode.mode == Mode.GENERALIZATION) {
+                createGeneralizationObject(selectComponent.get(0), selectComponent.get(1),
+                        selectComponent.get(0).atWhichDirection(selectPoint.get(0)),
+                        selectComponent.get(1).atWhichDirection(selectPoint.get(1)));
+            } else if (mode.mode == Mode.COMPOSITION) {
+                createCompositionObject(selectComponent.get(0), selectComponent.get(1),
+                        selectComponent.get(0).atWhichDirection(selectPoint.get(0)),
+                        selectComponent.get(1).atWhichDirection(selectPoint.get(1)));
+            }
+        }
+        if (!pressSelectSucess) {
+            // clearSelectComponent();
+            selectComponent.addAll(groupSelect(selectPoint.get(0), selectPoint.get(1)));
+        }
+        groupSelectPane.setVisible(false);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (mode.mode == Mode.SELECT) {
+            if (selectGroup.isEmpty() && pressSelectSucess) {
+                selectComponent.get(0).moveWithConnectLine(e.getPoint());
+            } else if (!selectGroup.isEmpty()) {
+                moveAll(selectGroup.get(0).getAllBasic(), selectComponent.get(0), e.getPoint());
+            }else if (!pressSelectSucess) {
+                groupSelectPane.setLayer(groupSelectPane, canvasPane.highestLayer() + 1);
+                groupSelectPane.setSize(Math.abs(e.getX() - selectPoint.get(0).x),
+                        Math.abs(e.getY() - selectPoint.get(0).y));
+                groupSelectPane.setLocation(selectPoint.get(0));
+                groupSelectPane.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+                groupSelectPane.setVisible(true);
             }
         }
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-
     }
 }
