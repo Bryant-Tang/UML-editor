@@ -16,17 +16,17 @@ public class App {
     static ArrayList<CompositeObject> selectGroup = new ArrayList<>();
 
     private static void createApp() {
-        JFrame frame = new JFrame("UML editor");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame mainFrame = new JFrame("UML editor");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mode = new Mode(Mode.SELECT);
 
         JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        UMLMenuBar = new UMLMenuBarController(menuBar, selectComponent, selectGroup);
+        mainFrame.setJMenuBar(menuBar);
+        UMLMenuBar = new UMLMenuBarController(mainFrame, menuBar, selectComponent, selectGroup);
 
         JPanel contentPane = new JPanel(new BorderLayout(5, 5));
-        frame.setContentPane(contentPane);
+        mainFrame.setContentPane(contentPane);
 
         JPanel buttonPane = new JPanel(new BorderLayout(5, 5));
         contentPane.add(buttonPane, BorderLayout.LINE_START);
@@ -36,9 +36,9 @@ public class App {
         contentPane.add(canvasPane, BorderLayout.CENTER);
         UMLCanvasPane = new UMLCanvasPaneController(canvasPane, mode, selectComponent, selectGroup);
 
-        frame.setSize(new Dimension(960, 640));
-        frame.setMinimumSize(new Dimension(640, 640));
-        frame.setVisible(true);
+        mainFrame.setSize(new Dimension(960, 640));
+        mainFrame.setMinimumSize(new Dimension(640, 640));
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

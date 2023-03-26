@@ -41,12 +41,14 @@ public class BasicObject extends JLayeredPane {
     JPanel downPoint;
     JPanel leftPoint;
     JLayeredPane contentPane;
+    JLabel nameLabel;
     private Boolean directionPointVisible = true;
     ArrayList<ConnectObject> connectLines;
     CompositeObject belongGroup = null;
 
     BasicObject() {
         super();
+        nameLabel = new JLabel("");
         connectLines = new ArrayList<>();
         setOpaque(false);
         upPoint = new JPanel();
@@ -219,8 +221,6 @@ public class BasicObject extends JLayeredPane {
 }
 
 class ClassObject extends BasicObject {
-    JLabel nameLabel;
-
     ClassObject(Point position) {
         super();
 
@@ -229,7 +229,7 @@ class ClassObject extends BasicObject {
 
         JPanel top = new JPanel(new BorderLayout());
         top.setBorder(BorderFactory.createMatteBorder(2, 2, 1, 2, Color.BLACK));
-        nameLabel = new JLabel("new class");
+        nameLabel.setText("new class");
         top.add(nameLabel);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.NORTH);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.EAST);
@@ -262,14 +262,12 @@ class ClassObject extends BasicObject {
 }
 
 class UseCaseObject extends BasicObject {
-    JLabel nameLabel;
-
     UseCaseObject(Point position) {
         super();
         contentPane.setLayout(null);
         contentPane.setOpaque(false);
 
-        nameLabel = new JLabel("new use case");
+        nameLabel.setText("new use case");
         nameLabel.setSize(nameLabel.getPreferredSize());
         Oval oval = new Oval();
         oval.setPreferredSize(

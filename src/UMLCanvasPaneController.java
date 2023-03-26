@@ -48,6 +48,7 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
         this.selectComponent = selectComponent;
         this.selectGroup = selectGroup;
         groupSelectPane = new JLayeredPane();
+        groupSelectPane.setBorder(BorderFactory.createLineBorder(Color.GREEN));
         canvasPane.add(groupSelectPane);
     }
 
@@ -163,7 +164,7 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
         if (mode.mode == Mode.SELECT) {
             setAllVisible(false);
-            if (pressSelectSucess && releaseSelectSucess) {
+            if (pressSelectSucess && releaseSelectSucess && selectComponent.size() == 1) {
                 selectComponent.get(0).setDirectionPointVisible(true);
             }
         } else if (mode.mode == Mode.CLASS) {
@@ -189,14 +190,22 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
         selectPoint.add(e.getPoint());
         BasicObject tempSelect = singleSelect(e.getPoint());
         if (!selectGroup.isEmpty()) {
-            selectComponent.add(tempSelect);
+            if (!selectComponent.contains(tempSelect)) {
+                selectComponent.add(tempSelect);
+            }
             pressSelectSucess = false;
         } else if (tempSelect == null) {
             pressSelectSucess = false;
         } else {
-            selectComponent.add(tempSelect);
+            if (!selectComponent.contains(tempSelect)) {
+                selectComponent.add(tempSelect);
+            }
             pressSelectSucess = true;
         }
+
+        canvasPane.remove(groupSelectPane);
+        groupSelectPane.setLayer(groupSelectPane, canvasPane.highestLayer() + 1);
+        canvasPane.add(groupSelectPane);
     }
 
     @Override
@@ -204,13 +213,15 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
         selectPoint.add(e.getPoint());
         BasicObject tempSelect = singleSelect(e.getPoint());
         if (selectGroup.isEmpty() && tempSelect != null) {
-            selectComponent.add(tempSelect);
+            if (!selectComponent.contains(tempSelect)) {
+                selectComponent.add(tempSelect);
+            }
             releaseSelectSucess = true;
         } else {
             releaseSelectSucess = false;
         }
 
-        if (pressSelectSucess && releaseSelectSucess && !(selectComponent.get(0).equals(selectComponent.get(1)))) {
+        if (pressSelectSucess && releaseSelectSucess && (selectComponent.size() == 2)) {
             if (mode.mode == Mode.ASSOCIATION) {
                 createAssociaitonObject(selectComponent.get(0), selectComponent.get(1),
                         selectComponent.get(0).atWhichDirection(selectPoint.get(0)),
@@ -226,7 +237,6 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
             }
         }
         if (!pressSelectSucess) {
-            // clearSelectComponent();
             selectComponent.addAll(groupSelect(selectPoint.get(0), selectPoint.get(1)));
         }
         groupSelectPane.setVisible(false);
@@ -239,12 +249,12 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
                 selectComponent.get(0).moveWithConnectLine(e.getPoint());
             } else if (!selectGroup.isEmpty()) {
                 moveAll(selectGroup.get(0).getAllBasic(), selectComponent.get(0), e.getPoint());
-            }else if (!pressSelectSucess) {
-                groupSelectPane.setLayer(groupSelectPane, canvasPane.highestLayer() + 1);
+            } else if (!pressSelectSucess) {
+                setAllVisible(false);
                 groupSelectPane.setSize(Math.abs(e.getX() - selectPoint.get(0).x),
                         Math.abs(e.getY() - selectPoint.get(0).y));
-                groupSelectPane.setLocation(selectPoint.get(0));
-                groupSelectPane.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+                groupSelectPane.setLocation(Math.min(selectPoint.get(0).x, e.getX()),
+                        Math.min(selectPoint.get(0).y, e.getY()));
                 groupSelectPane.setVisible(true);
             }
         }
