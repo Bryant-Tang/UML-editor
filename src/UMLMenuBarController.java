@@ -39,6 +39,7 @@ public class UMLMenuBarController {
 
     JFrame createChangeNameFrame(){
         JFrame changeNameFrame = new JFrame();
+        changeNameFrame.setTitle("Change Name");
         changeNameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         changeNameFrame.setSize(new Dimension(360, 240));
         JLabel tempLabel = new JLabel("Enter new name: ");
