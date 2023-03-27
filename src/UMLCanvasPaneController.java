@@ -135,7 +135,9 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
         for (Component comp : canvasPane.getComponents()) {
             if (comp instanceof BasicObject) {
                 if (((BasicObject) comp).isInRange(aPoint, bPoint)) {
-                    tempSelect.add((BasicObject) comp);
+                    if (!tempSelect.contains((BasicObject) comp)) {
+                        tempSelect.add((BasicObject) comp);
+                    }
                 }
             }
         }
@@ -236,10 +238,21 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
                         selectComponent.get(1).atWhichDirection(selectPoint.get(1)));
             }
         }
-        if (!pressSelectSucess) {
-            selectComponent.addAll(groupSelect(selectPoint.get(0), selectPoint.get(1)));
-        }
         groupSelectPane.setVisible(false);
+        if (!pressSelectSucess) {
+            selectComponent.clear();
+            ArrayList<BasicObject> tempSelectArray = groupSelect(selectPoint.get(0), selectPoint.get(1));
+            for (BasicObject comp : tempSelectArray) {
+                if (comp.belongGroup == null && !selectComponent.contains(comp)) {
+                    selectComponent.add(comp);
+                }
+            }
+            if (mode.mode == Mode.SELECT) {
+                for (BasicObject comp : selectComponent) {
+                    comp.setDirectionPointVisible(true);
+                }
+            }
+        }
     }
 
     @Override

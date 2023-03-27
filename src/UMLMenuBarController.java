@@ -1,9 +1,14 @@
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +25,7 @@ public class UMLMenuBarController {
     JMenuItem changeObjectName;
 
     JFrame changeNameFrame;
+    JTextField changeNameInputField;
 
     ArrayList<BasicObject> selectComponent;
     ArrayList<CompositeObject> selectGroup;
@@ -36,7 +42,27 @@ public class UMLMenuBarController {
         changeNameFrame = new JFrame();
         changeNameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         changeNameFrame.setSize(new Dimension(360, 240));
-        changeNameFrame.add(new CancelButton(changeNameFrame),BorderLayout.SOUTH);
+        JLabel tempLabel = new JLabel("Enter new name: ");
+        changeNameInputField = new JTextField();
+        changeNameInputField
+                .setPreferredSize(new Dimension(changeNameFrame.getWidth() - tempLabel.getPreferredSize().width - 50,
+                        changeNameInputField.getPreferredSize().height));
+        JPanel tempJPanel = new JPanel();
+        tempJPanel.setLayout(new BoxLayout(tempJPanel, BoxLayout.Y_AXIS));
+        tempJPanel.add(new Box.Filler(null, new Dimension(0, changeNameFrame.getHeight()), null));
+        JPanel tempInputPanel = new JPanel();
+        tempInputPanel.add(tempLabel, BorderLayout.WEST);
+        tempInputPanel.add(changeNameInputField, BorderLayout.EAST);
+        tempJPanel.add(tempInputPanel);
+        tempJPanel.add(new Box.Filler(null, new Dimension(0, changeNameFrame.getHeight()), null));
+        changeNameFrame.add(tempJPanel, BorderLayout.CENTER);
+        tempJPanel = new JPanel();
+        tempJPanel.add(new CancelButton(changeNameFrame), BorderLayout.WEST);
+        tempJPanel.add(new Box.Filler(null, new Dimension(50, 0), null), BorderLayout.CENTER);
+        tempJPanel.add(new OkButton(changeNameFrame, selectComponent, changeNameInputField), BorderLayout.EAST);
+        changeNameFrame.add(tempJPanel, BorderLayout.SOUTH);
+        changeNameFrame.setAlwaysOnTop(true);
+        changeNameFrame.setResizable(false);
 
         JMenu fileMenu = new JMenu("File");
         JMenu editMenu = new JMenu("Edit");
@@ -72,11 +98,7 @@ public class UMLMenuBarController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 changeNameFrame.setVisible(true);
-
                 changeNameFrame.setLocationRelativeTo(mainFrame);
-                if (selectComponent.size() == 1) {
-                    selectComponent.get(0).nameLabel.setText("123");
-                }
             }
         });
         editMenu.add(group);
@@ -101,5 +123,28 @@ class CancelButton extends JButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         changeNameFrame.setVisible(false);
+    }
+}
+
+class OkButton extends JButton implements ActionListener {
+    JFrame changeNameFrame;
+    ArrayList<BasicObject> selectComponent;
+    JTextField inputField;
+
+    OkButton(JFrame changeNameFrame, ArrayList<BasicObject> selectComponent, JTextField inputField) {
+        super("OK");
+        this.changeNameFrame = changeNameFrame;
+        this.selectComponent = selectComponent;
+        this.inputField = inputField;
+        this.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (selectComponent.size() == 1) {
+            selectComponent.get(0).setObjectName(inputField.getText());
+        }
+        changeNameFrame.setVisible(false);
+        inputField.setText("");
     }
 }

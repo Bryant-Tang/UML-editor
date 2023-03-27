@@ -81,6 +81,12 @@ public class BasicObject extends JLayeredPane {
         setDirectionPointVisible(false);
     }
 
+    void setObjectName(String name) {
+        nameLabel = new JLabel(name);
+        setSizeAuto();
+        this.repaint();
+    }
+
     Boolean pointIsIn(Point p) {
         if (this.getX() <= p.x && p.x <= (this.getX() + this.getWidth()) && this.getY() <= p.y
                 && p.y <= (this.getY() + this.getHeight())) {
@@ -229,7 +235,7 @@ class ClassObject extends BasicObject {
 
         JPanel top = new JPanel(new BorderLayout());
         top.setBorder(BorderFactory.createMatteBorder(2, 2, 1, 2, Color.BLACK));
-        nameLabel.setText("new class");
+        nameLabel = new JLabel("new class");
         top.add(nameLabel);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.NORTH);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.EAST);
@@ -267,7 +273,8 @@ class UseCaseObject extends BasicObject {
         contentPane.setLayout(null);
         contentPane.setOpaque(false);
 
-        nameLabel.setText("new use case");
+        nameLabel = new JLabel("new use case");
+        System.out.println(nameLabel.getPreferredSize());
         nameLabel.setSize(nameLabel.getPreferredSize());
         Oval oval = new Oval();
         oval.setPreferredSize(
