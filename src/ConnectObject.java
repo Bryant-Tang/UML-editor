@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Dimension;
 
-import java.lang.Math;
-
 class Direction {
     public static final int UP = 0;
     public static final int RIGHT = 1;

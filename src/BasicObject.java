@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,7 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 
-import java.lang.Math;
 import java.util.ArrayList;
 
 class Oval extends JPanel {
@@ -92,23 +90,15 @@ public class BasicObject extends JLayeredPane {
     }
 
     Boolean pointIsIn(Point p) {
-        if (this.getX() <= p.x && p.x <= (this.getX() + this.getWidth()) && this.getY() <= p.y
-                && p.y <= (this.getY() + this.getHeight())) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.getX() <= p.x && p.x <= (this.getX() + this.getWidth()) && this.getY() <= p.y
+                && p.y <= (this.getY() + this.getHeight()));
     }
 
     Boolean isInRange(Point aPoint, Point bPoint) {
         Point leftTop = new Point(Math.min(aPoint.x, bPoint.x), Math.min(aPoint.y, bPoint.y));
         Point rightBtm = new Point(Math.max(aPoint.x, bPoint.x), Math.max(aPoint.y, bPoint.y));
-        if (this.getX() >= leftTop.x && this.getY() >= leftTop.y && this.getX() + this.getWidth() <= rightBtm.x
-                && this.getY() + this.getHeight() <= rightBtm.y) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.getX() >= leftTop.x && this.getY() >= leftTop.y && this.getX() + this.getWidth() <= rightBtm.x
+                && this.getY() + this.getHeight() <= rightBtm.y);
     }
 
     public void moveWithConnectLine(Point p) {
@@ -211,19 +201,19 @@ public class BasicObject extends JLayeredPane {
         Point leftLocation = new Point(contentPane.getX(),
                 contentPane.getY() + (contentPane.getHeight() / 2));
 
-        double shortestDistance = p.distance((Point2D) upLocation);
+        double shortestDistance = p.distance(upLocation);
         int shortestDirection = Direction.UP;
-        if (p.distance((Point2D) rightLocation) < shortestDistance) {
+        if (p.distance(rightLocation) < shortestDistance) {
             shortestDirection = Direction.RIGHT;
-            shortestDistance = p.distance((Point2D) rightLocation);
+            shortestDistance = p.distance(rightLocation);
         }
-        if (p.distance((Point2D) downLocation) < shortestDistance) {
+        if (p.distance(downLocation) < shortestDistance) {
             shortestDirection = Direction.DOWN;
-            shortestDistance = p.distance((Point2D) downLocation);
+            shortestDistance = p.distance(downLocation);
         }
-        if (p.distance((Point2D) leftLocation) < shortestDistance) {
+        if (p.distance(leftLocation) < shortestDistance) {
             shortestDirection = Direction.LEFT;
-            shortestDistance = p.distance((Point2D) leftLocation);
+            shortestDistance = p.distance(leftLocation);
         }
 
         return shortestDirection;
