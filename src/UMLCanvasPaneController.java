@@ -68,7 +68,6 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
     }
 
     void createAssociaitonObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
-        System.out.println("creating line...");
         ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
                 new AssociationLineArrow(Direction.getoOpposite(directionB)));
         temp.setLayer(temp, canvasPane.lowestLayer() - 1);
@@ -77,7 +76,6 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
     }
 
     void createGeneralizationObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
-        System.out.println("creating line...");
         ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
                 new GeneralizationLineArrow(Direction.getoOpposite(directionB)));
         temp.setLayer(temp, canvasPane.lowestLayer() - 1);
@@ -86,7 +84,6 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
     }
 
     void createCompositionObject(BasicObject componentA, BasicObject componentB, int directionA, int directionB) {
-        System.out.println("creating line...");
         ConnectObject temp = new ConnectObject(componentA, componentB, directionA, directionB,
                 new CompositionLineArrow(Direction.getoOpposite(directionB)));
         temp.setLayer(temp, canvasPane.lowestLayer() - 1);
@@ -108,6 +105,7 @@ class CanvasPaneListener implements MouseListener, MouseMotionListener {
         selectGroup.clear();
         pressSelectSucess = false;
         releaseSelectSucess = false;
+        setAllVisible(false);
     }
 
     BasicObject singleSelect(Point p) {

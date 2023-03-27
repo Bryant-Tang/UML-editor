@@ -7,7 +7,6 @@ public class CompositeObject {
 
     CompositeObject(){
         super();
-        System.out.println("group construct");
     }
 
     void addBasic(BasicObject comp) {
