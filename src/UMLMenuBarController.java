@@ -24,7 +24,6 @@ public class UMLMenuBarController {
     JMenuItem unGroup;
     JMenuItem changeObjectName;
 
-    JFrame changeNameFrame;
     JTextField changeNameInputField;
 
     ArrayList<BasicObject> selectComponent;
@@ -38,8 +37,8 @@ public class UMLMenuBarController {
         initialize(mainFrame);
     }
 
-    private void initialize(JFrame mainFrame) {
-        changeNameFrame = new JFrame();
+    JFrame createChangeNameFrame(){
+        JFrame changeNameFrame = new JFrame();
         changeNameFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         changeNameFrame.setSize(new Dimension(360, 240));
         JLabel tempLabel = new JLabel("Enter new name: ");
@@ -63,7 +62,10 @@ public class UMLMenuBarController {
         changeNameFrame.add(tempJPanel, BorderLayout.SOUTH);
         changeNameFrame.setAlwaysOnTop(true);
         changeNameFrame.setResizable(false);
+        return changeNameFrame;
+    }
 
+    private void initialize(JFrame mainFrame) {
         JMenu fileMenu = new JMenu("File");
         JMenu editMenu = new JMenu("Edit");
         menuBar.add(fileMenu);
@@ -97,6 +99,7 @@ public class UMLMenuBarController {
         changeObjectName.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame changeNameFrame = createChangeNameFrame();
                 changeNameFrame.setVisible(true);
                 changeNameFrame.setLocationRelativeTo(mainFrame);
             }
@@ -122,7 +125,7 @@ class CancelButton extends JButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        changeNameFrame.setVisible(false);
+        changeNameFrame.dispose();
     }
 }
 
@@ -144,7 +147,6 @@ class OkButton extends JButton implements ActionListener {
         if (selectComponent.size() == 1) {
             selectComponent.get(0).setObjectName(inputField.getText());
         }
-        changeNameFrame.setVisible(false);
-        inputField.setText("");
+        changeNameFrame.dispose();
     }
 }

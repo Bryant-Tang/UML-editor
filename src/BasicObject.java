@@ -290,6 +290,7 @@ class UseCaseObject extends BasicObject {
         contentPane.setOpaque(false);
 
         nameLabel.setText("new use case");
+        System.out.println(nameLabel.getPreferredSize().width);
         oval = new Oval();
 
         contentPane.add(nameLabel, BorderLayout.CENTER, highestLayer());
@@ -303,7 +304,7 @@ class UseCaseObject extends BasicObject {
     @Override
     void setContentPaneSize() {
         super.setContentPaneSize();
-        nameLabel.setSize(nameLabel.getPreferredSize());
+        nameLabel.setSize(nameLabel.getPreferredSize().width + 1, nameLabel.getPreferredSize().height);
         oval.setPreferredSize(
                 new Dimension(((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().width)),
                         ((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().height))));
