@@ -81,8 +81,12 @@ public class BasicObject extends JLayeredPane {
         setDirectionPointVisible(false);
     }
 
+    void setContentPaneSize() {
+    }
+
     void setObjectName(String name) {
-        nameLabel = new JLabel(name);
+        nameLabel.setText(name);
+        setContentPaneSize();
         setSizeAuto();
         this.repaint();
     }
@@ -227,72 +231,87 @@ public class BasicObject extends JLayeredPane {
 }
 
 class ClassObject extends BasicObject {
+    JPanel top;
+    JPanel mid;
+    JPanel btm;
+
     ClassObject(Point position) {
         super();
 
         contentPane.setOpaque(false);
         contentPane.setLayout(null);
 
-        JPanel top = new JPanel(new BorderLayout());
+        top = new JPanel(new BorderLayout());
         top.setBorder(BorderFactory.createMatteBorder(2, 2, 1, 2, Color.BLACK));
-        nameLabel = new JLabel("new class");
+        nameLabel.setText("new class");
         top.add(nameLabel);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.NORTH);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.EAST);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.SOUTH);
         top.add(new Box.Filler(new Dimension(0, 0), new Dimension(2, 2), new Dimension(2, 2)), BorderLayout.WEST);
-        top.setSize(top.getPreferredSize());
-        top.setLocation(0, 0);
 
-        JPanel mid = new JPanel();
+        mid = new JPanel();
         mid.setBorder(BorderFactory.createMatteBorder(1, 2, 1, 2, Color.BLACK));
-        mid.setSize(top.getPreferredSize());
-        mid.setLocation(0, top.getHeight());
 
-        JPanel btm = new JPanel();
+        btm = new JPanel();
         btm.setBorder(BorderFactory.createMatteBorder(1, 2, 2, 2, Color.BLACK));
-        btm.setSize(top.getPreferredSize());
-        btm.setLocation(0, top.getHeight() + mid.getHeight());
 
         contentPane.add(top);
         contentPane.add(mid);
         contentPane.add(btm);
-        contentPane.setPreferredSize(
-                new Dimension(top.getWidth(), top.getHeight() + mid.getHeight() + btm.getHeight()));
-        contentPane.setSize(contentPane.getPreferredSize());
 
+        setContentPaneSize();
         this.setLocation(position);
         setSizeAuto();
 
     }
+
+    @Override
+    void setContentPaneSize() {
+        super.setContentPaneSize();
+        top.setSize(top.getPreferredSize());
+        top.setLocation(0, 0);
+        mid.setSize(top.getPreferredSize());
+        mid.setLocation(0, top.getHeight());
+        btm.setSize(top.getPreferredSize());
+        btm.setLocation(0, top.getHeight() + mid.getHeight());
+        contentPane.setPreferredSize(
+                new Dimension(top.getWidth(), top.getHeight() + mid.getHeight() + btm.getHeight()));
+        contentPane.setSize(contentPane.getPreferredSize());
+    }
 }
 
 class UseCaseObject extends BasicObject {
+    Oval oval;
+
     UseCaseObject(Point position) {
         super();
         contentPane.setLayout(null);
         contentPane.setOpaque(false);
 
-        nameLabel = new JLabel("new use case");
-        System.out.println(nameLabel.getPreferredSize());
-        nameLabel.setSize(nameLabel.getPreferredSize());
-        Oval oval = new Oval();
-        oval.setPreferredSize(
-                new Dimension(((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().width)),
-                        ((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().height))));
-        oval.setSize(oval.getPreferredSize());
-
-        oval.setLocation(0, 0);
-        nameLabel.setLocation((oval.getWidth() - nameLabel.getWidth()) / 2,
-                (oval.getHeight() - nameLabel.getHeight()) / 2);
+        nameLabel.setText("new use case");
+        oval = new Oval();
 
         contentPane.add(nameLabel, BorderLayout.CENTER, highestLayer());
         contentPane.add(oval, BorderLayout.CENTER, lowestLayer() - 1);
 
-        contentPane.setPreferredSize(oval.getPreferredSize());
-        contentPane.setSize(contentPane.getPreferredSize());
-
+        setContentPaneSize();
         setLocation(position);
         setSizeAuto();
+    }
+
+    @Override
+    void setContentPaneSize() {
+        super.setContentPaneSize();
+        nameLabel.setSize(nameLabel.getPreferredSize());
+        oval.setPreferredSize(
+                new Dimension(((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().width)),
+                        ((int) Math.round(Math.sqrt(2) * nameLabel.getPreferredSize().height))));
+        oval.setSize(oval.getPreferredSize());
+        oval.setLocation(0, 0);
+        nameLabel.setLocation((oval.getWidth() - nameLabel.getWidth()) / 2,
+                (oval.getHeight() - nameLabel.getHeight()) / 2);
+        contentPane.setPreferredSize(oval.getPreferredSize());
+        contentPane.setSize(contentPane.getPreferredSize());
     }
 }
