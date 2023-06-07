@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class FunctionalBtnControll {
+    // singleton instaance
     static FunctionalBtnControll uniqueInstance;
 
     private FunctionalBtnControll() {
@@ -18,8 +19,16 @@ public class FunctionalBtnControll {
         return uniqueInstance;
     }
 
+    JPanel functioanalBtnPanel;
+
     public JPanel getFunctioanalBtnPanel() {
-        // TODO: return btns
-        throw new UnsupportedOperationException();
+        if (functioanalBtnPanel == null) {
+            initFunctioanalBtnPanel();
+        }
+        return functioanalBtnPanel;
+    }
+
+    void initFunctioanalBtnPanel() {
+        functioanalBtnPanel = new JPanel();
     }
 }

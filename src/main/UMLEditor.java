@@ -54,7 +54,7 @@ public class UMLEditor {
      * do anything about menu that need to initialize
      */
     void addMenu() {
-        mainFrame.setJMenuBar(MenuControll.getInstance().getMenuabr());
+        mainFrame.setJMenuBar(MenuControll.getInstance().getMenuBar());
     }
 
     /**

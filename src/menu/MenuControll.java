@@ -7,6 +7,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MenuControll {
+    // constant value
+    static String fileMenuText = "File";
+    static String editMenuText = "Edit";
+    static String renameMenuItemText = "rename";
+    static String groupMenuItemText = "group";
+    static String ungroupMenuItemText = "ungroup";
+    // singleton instaance
     static MenuControll uniqueInstance;
 
     private MenuControll() {
@@ -19,8 +26,26 @@ public class MenuControll {
         return uniqueInstance;
     }
 
-    public JMenuBar getMenuabr() {
-        //TODO: return all menu
-        throw new UnsupportedOperationException();
+    JMenuBar menuBar;
+
+    public JMenuBar getMenuBar() {
+        if (menuBar == null) {
+            initMenuBar();
+        }
+        return menuBar;
+    }
+
+    void initMenuBar() {
+        menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu(fileMenuText);
+        JMenu editMenu = new JMenu(editMenuText);
+        JMenuItem renameMenuItem = new JMenuItem(renameMenuItemText);
+        JMenuItem groupMenuItem = new JMenuItem(groupMenuItemText);
+        JMenuItem ungroupMenuItem = new JMenuItem(ungroupMenuItemText);
+        editMenu.add(renameMenuItem);
+        editMenu.add(groupMenuItem);
+        editMenu.add(ungroupMenuItem);
+        menuBar.add(fileMenu);
+        menuBar.add(editMenu);
     }
 }
