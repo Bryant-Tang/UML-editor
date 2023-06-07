@@ -1,11 +1,15 @@
 package canvas;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.Dimension;
 
 public class CanvasControll {
     // constant value
     static Dimension canvasPanelPreferredSize = new Dimension(400, 400);
+
     // singleton instaance
     static CanvasControll uniqueInstance;
 
@@ -31,5 +35,7 @@ public class CanvasControll {
     void initCanvasPanel() {
         canvasPanel = new JPanel();
         canvasPanel.setPreferredSize(canvasPanelPreferredSize);
+        canvasPanel.setBackground(Color.WHITE);
+        canvasPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 }

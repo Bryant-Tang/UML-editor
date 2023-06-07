@@ -13,6 +13,7 @@ public class MenuControll {
     static String renameMenuItemText = "rename";
     static String groupMenuItemText = "group";
     static String ungroupMenuItemText = "ungroup";
+
     // singleton instaance
     static MenuControll uniqueInstance;
 
