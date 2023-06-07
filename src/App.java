@@ -10,6 +10,11 @@ import java.awt.Dimension;
 
 public class App {
     static String appTitle = "UML Editor";
+    static String fileMenuText = "File";
+    static String editMenuText = "Edit";
+    static String renameMenuItemText = "rename";
+    static String groupMenuItemText = "group";
+    static String ungroupMenuItemText = "ungroup";
     static Dimension canvasPreferredSize = new Dimension(400, 400);
 
     public static void main(String[] args) {
@@ -28,11 +33,11 @@ public class App {
     }
 
     static void addMenu(JFrame mainFrame) {
-        JMenuItem renameMenuItem = new JMenuItem("rename");
-        JMenuItem groupMenuItem = new JMenuItem("group");
-        JMenuItem ungroupMenuItem = new JMenuItem("ungroup");
-        JMenu fileMenu = new JMenu("File");
-        JMenu editMenu = new JMenu("Edit");
+        JMenuItem renameMenuItem = new JMenuItem(renameMenuItemText);
+        JMenuItem groupMenuItem = new JMenuItem(groupMenuItemText);
+        JMenuItem ungroupMenuItem = new JMenuItem(ungroupMenuItemText);
+        JMenu fileMenu = new JMenu(fileMenuText);
+        JMenu editMenu = new JMenu(editMenuText);
         JMenuBar menuBar = new JMenuBar();
         editMenu.add(renameMenuItem);
         editMenu.add(groupMenuItem);
