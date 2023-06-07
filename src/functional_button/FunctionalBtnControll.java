@@ -3,6 +3,7 @@ package functional_button;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class FunctionalBtnControll {
     static FunctionalBtnControll uniqueInstance;
@@ -17,7 +18,7 @@ public class FunctionalBtnControll {
         return uniqueInstance;
     }
 
-    public List<JButton> getAllFunctionalBtn() {
+    public JPanel getFunctioanalBtnPanel() {
         // TODO: return btns
         throw new UnsupportedOperationException();
     }

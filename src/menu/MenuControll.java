@@ -3,6 +3,7 @@ package menu;
 import java.util.List;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MenuControll {
@@ -18,7 +19,7 @@ public class MenuControll {
         return uniqueInstance;
     }
 
-    public List<JMenu> getAllMenu() {
+    public JMenuBar getMenuabr() {
         //TODO: return all menu
         throw new UnsupportedOperationException();
     }

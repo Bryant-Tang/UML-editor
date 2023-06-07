@@ -15,7 +15,7 @@ public class CanvasControll {
         return uniqueInstance;
     }
 
-    public JPanel getCanvasPane() {
+    public JPanel getCanvasPanel() {
         // TODO: return all menu
         throw new UnsupportedOperationException();
     }

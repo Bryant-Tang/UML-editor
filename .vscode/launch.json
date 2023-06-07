@@ -12,9 +12,9 @@
         },
         {
             "type": "java",
-            "name": "App",
+            "name": "UML_Editor_Project",
             "request": "launch",
-            "mainClass": "App",
+            "mainClass": "Launcher",
             "projectName": "OOP_redesign_4ab88e52"
         }
     ]
