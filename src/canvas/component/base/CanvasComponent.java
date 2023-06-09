@@ -7,7 +7,8 @@ import java.awt.Point;
 import java.awt.Dimension;
 
 public abstract class CanvasComponent extends JPanel {
-    static Dimension defaultSize = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    // constant value
+    static Dimension defaultSize = new Dimension(1, 1);
 
     protected CanvasComponent(Point position) {
         this.setLocation(position);

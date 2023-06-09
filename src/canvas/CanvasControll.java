@@ -4,6 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import canvas.component.basic.ClassComponent;
+import canvas.component.factory.ClassComponentFactory;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,8 +42,8 @@ public class CanvasControll {
         canvasPanel.setBackground(Color.WHITE);
         canvasPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         canvasPanel.setLayout(null);
-        ClassComponent c = new ClassComponent(new Point(100, 100), "class");
-        canvasPanel.add(c);
+
+        canvasPanel.add(new ClassComponentFactory().create(null));
 
     }
 }
