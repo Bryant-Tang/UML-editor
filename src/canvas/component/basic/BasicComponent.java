@@ -10,7 +10,6 @@ import canvas.component.base.CanvasComponent;
 
 public abstract class BasicComponent extends CanvasComponent {
     protected JLabel nameLabel = new JLabel();
-    protected static int nameIndex = 0;
 
     protected BasicComponent(Point position, String name) {
         super(position);

@@ -16,10 +16,6 @@ public class ClassComponent extends BasicComponent {
     static int minContentPanelHeight = 10;
     static Dimension dividingLineSize = new Dimension(Integer.MAX_VALUE, 1);
 
-    // attribute
-    private int attributeEndIndex = nameIndex;
-    private int methodEndIndex = nameIndex;
-
     public ClassComponent(Point position, String name) {
         super(position, name);
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -27,43 +23,24 @@ public class ClassComponent extends BasicComponent {
         initContent();
     }
 
+    @Override
+    public Component add(Component comp) {
+        Component compArgument = super.add(comp);
+        this.resize();
+        return compArgument;
+    }
+
     private void initContent() {
-        addAttribute(emptyContent);
-        addMethod(emptyContent);
+        this.add(createDividingLine());
+        addContent(emptyContent);
+        this.add(createDividingLine());
+        addContent(emptyContent);
     }
 
-    public void addAttribute(String attribute) {
-        if (isNoAttribute()) {
-            attributeEndIndex += 1;
-            methodEndIndex += 1;
-            this.add(createDividingLine(), attributeEndIndex);
-        }
-        attributeEndIndex += 1;
-        methodEndIndex += 1;
-        JLabel newLabel = new JLabel(attribute);
+    public void addContent(String content) {
+        JLabel newLabel = new JLabel(content);
         newLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.add(newLabel, attributeEndIndex);
-        this.resize();
-    }
-
-    public void addMethod(String method) {
-        if (isNoMethod()) {
-            methodEndIndex += 1;
-            this.add(createDividingLine(), methodEndIndex);
-        }
-        methodEndIndex += 1;
-        JLabel newLabel = new JLabel(method);
-        newLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.add(newLabel, methodEndIndex);
-        this.resize();
-    }
-
-    private boolean isNoAttribute() {
-        return attributeEndIndex == nameIndex;
-    }
-
-    private boolean isNoMethod() {
-        return methodEndIndex == attributeEndIndex;
+        this.add(newLabel);
     }
 
     private Box.Filler createDividingLine() {

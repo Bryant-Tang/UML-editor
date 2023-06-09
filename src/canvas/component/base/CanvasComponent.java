@@ -20,8 +20,8 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paint(Graphics g) {
         this.resize();
-        super.paintComponent(g);
+        super.paint(g);
     }
 }
