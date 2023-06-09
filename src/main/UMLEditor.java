@@ -1,12 +1,14 @@
+/**
+ * run Launcher.java to start this app
+ */
 package main;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 import java.awt.BorderLayout;
-
+import button.FunctionalBtnControll;
 import canvas.CanvasControll;
-import functional_button.FunctionalBtnControll;
+import canvas.component.basic.ClassComponent;
 import menu.MenuControll;
 
 public class UMLEditor {
@@ -14,7 +16,7 @@ public class UMLEditor {
     static String appTitle = "UML Editor";
 
     // singleton instaance
-    static UMLEditor uniqueInstance;
+    private static UMLEditor uniqueInstance;
 
     private UMLEditor() {
     }
@@ -27,7 +29,7 @@ public class UMLEditor {
     }
 
     // the main frame(window) of this app, not construct yet
-    JFrame mainFrame;
+    private JFrame mainFrame;
 
     /**
      * run this app
@@ -44,7 +46,7 @@ public class UMLEditor {
      * construct the mainFrame
      * do anything about mainFrame that need to initialize
      */
-    void initMainFrame() {
+    private void initMainFrame() {
         mainFrame = new JFrame(appTitle);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -53,7 +55,7 @@ public class UMLEditor {
      * add menu bar to main frame
      * do anything about menu that need to initialize
      */
-    void addMenu() {
+    private void addMenu() {
         mainFrame.setJMenuBar(MenuControll.getInstance().getMenuBar());
     }
 
@@ -61,7 +63,7 @@ public class UMLEditor {
      * add functional button panel to main frame
      * do anything about functional button that need to initialize
      */
-    void addButtonPane() {
+    private void addButtonPane() {
         mainFrame.add(FunctionalBtnControll.getInstance().getFunctioanalBtnPanel(), BorderLayout.LINE_START);
     }
 
@@ -69,14 +71,14 @@ public class UMLEditor {
      * add canvas panel to main frame
      * do anything about canvas panel that need to initialize
      */
-    void addCanvasPane() {
+    private void addCanvasPane() {
         mainFrame.add(CanvasControll.getInstance().getCanvasPanel(), BorderLayout.CENTER);
     }
 
     /**
      * show main frame
      */
-    void show() {
+    private void show() {
         mainFrame.pack();
         mainFrame.setVisible(true);
     }

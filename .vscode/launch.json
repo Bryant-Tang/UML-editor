@@ -14,7 +14,7 @@
             "type": "java",
             "name": "UML_Editor_Project",
             "request": "launch",
-            "mainClass": "Launcher",
+            "mainClass": "main.Launcher",
             "projectName": "OOP_redesign_4ab88e52"
         }
     ]

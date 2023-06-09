@@ -1,4 +1,4 @@
-package functional_button;
+package button;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class FunctionalBtnControll {
     // singleton instaance
-    static FunctionalBtnControll uniqueInstance;
+    private static FunctionalBtnControll uniqueInstance;
 
     private FunctionalBtnControll() {
     }
@@ -19,7 +19,7 @@ public class FunctionalBtnControll {
         return uniqueInstance;
     }
 
-    JPanel functioanalBtnPanel;
+    private JPanel functioanalBtnPanel;
 
     public JPanel getFunctioanalBtnPanel() {
         if (functioanalBtnPanel == null) {
@@ -28,7 +28,7 @@ public class FunctionalBtnControll {
         return functioanalBtnPanel;
     }
 
-    void initFunctioanalBtnPanel() {
+    private void initFunctioanalBtnPanel() {
         functioanalBtnPanel = new JPanel();
     }
 }

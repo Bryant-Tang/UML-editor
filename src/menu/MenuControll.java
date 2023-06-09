@@ -15,7 +15,7 @@ public class MenuControll {
     static String ungroupMenuItemText = "ungroup";
 
     // singleton instaance
-    static MenuControll uniqueInstance;
+    private static MenuControll uniqueInstance;
 
     private MenuControll() {
     }
@@ -27,7 +27,7 @@ public class MenuControll {
         return uniqueInstance;
     }
 
-    JMenuBar menuBar;
+    private JMenuBar menuBar;
 
     public JMenuBar getMenuBar() {
         if (menuBar == null) {
@@ -36,7 +36,7 @@ public class MenuControll {
         return menuBar;
     }
 
-    void initMenuBar() {
+    private void initMenuBar() {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu(fileMenuText);
         JMenu editMenu = new JMenu(editMenuText);
