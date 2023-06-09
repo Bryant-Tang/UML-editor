@@ -8,7 +8,6 @@ import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 import button.FunctionalBtnControll;
 import canvas.CanvasControll;
-import canvas.component.basic.ClassComponent;
 import menu.MenuControll;
 
 public class UMLEditor {

@@ -1,8 +1,5 @@
 package button;
 
-import java.util.List;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class FunctionalBtnControll {

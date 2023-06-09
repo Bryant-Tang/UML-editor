@@ -3,7 +3,6 @@ package canvas;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import canvas.component.base.CanvasComponent;
 import canvas.component.basic.ClassComponent;
 
 import java.awt.Color;
