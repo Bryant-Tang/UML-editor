@@ -16,7 +16,7 @@ public abstract class CanvasComponent extends JPanel {
         this.setSize(defaultSize);
     }
 
-    protected void resize() {
+    private void resize() {
         this.revalidate();
         this.setSize(getPreferredSize());
     }
