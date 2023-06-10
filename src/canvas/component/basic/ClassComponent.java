@@ -23,13 +23,6 @@ public class ClassComponent extends BasicComponent {
         initContent();
     }
 
-    @Override
-    public Component add(Component comp) {
-        Component compArgument = super.add(comp);
-        this.resize();
-        return compArgument;
-    }
-
     private void initContent() {
         this.add(createDividingLine());
         addContent(emptyContent);

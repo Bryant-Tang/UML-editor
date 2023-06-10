@@ -11,11 +11,13 @@ public abstract class CanvasComponent extends JPanel {
     static Dimension defaultSize = new Dimension(1, 1);
 
     protected CanvasComponent(Point position) {
+        super();
         this.setLocation(position);
         this.setSize(defaultSize);
     }
 
     protected void resize() {
+        this.revalidate();
         this.setSize(getPreferredSize());
     }
 

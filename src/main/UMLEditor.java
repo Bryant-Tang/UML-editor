@@ -5,7 +5,9 @@ package main;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import java.awt.BorderLayout;
+
 import button.FunctionalBtnControll;
 import canvas.CanvasControll;
 import menu.MenuControll;
