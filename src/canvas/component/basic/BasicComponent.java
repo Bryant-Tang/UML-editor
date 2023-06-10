@@ -9,7 +9,8 @@ import java.awt.Point;
 import canvas.component.base.CanvasComponent;
 
 public abstract class BasicComponent extends CanvasComponent {
-    protected JLabel nameLabel = new JLabel();
+    private JLabel nameLabel = new JLabel();
+    protected JPanel namePanel = new JPanel();
 
     protected BasicComponent(Point position, String name) {
         super(position);
@@ -18,7 +19,7 @@ public abstract class BasicComponent extends CanvasComponent {
 
     private void initName(String name) {
         this.setName(name);
-        JPanel namePanel = new JPanel();
+        namePanel.setOpaque(false);
         namePanel.add(nameLabel);
         namePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.add(namePanel);

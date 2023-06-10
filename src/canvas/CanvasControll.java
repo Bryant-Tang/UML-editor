@@ -45,7 +45,7 @@ public class CanvasControll {
         canvasPanel.setBackground(Color.WHITE);
         canvasPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         canvasPanel.setLayout(null);
-        setMode(new AddBasicMode(new BasicComponentFactory(), BasicComponentFactory.CLASS_COMPONENT));
+        setMode(new AddBasicMode(new BasicComponentFactory(), BasicComponentFactory.USE_CASE_COMPONENT));
     }
 
     public void addComponent(CanvasComponent comp) {
