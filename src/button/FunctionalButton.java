@@ -18,7 +18,7 @@ public class FunctionalButton extends JButton implements FocusListener {
     static String buttonUIManagerKey = "Button.border";
     static int selectedBorderThick = 5;
     static Dimension size = new Dimension(80, 80);
-    Mode mode;
+    private Mode mode;
 
     public FunctionalButton(Mode mode, ImageIcon icon) {
         super(icon);
