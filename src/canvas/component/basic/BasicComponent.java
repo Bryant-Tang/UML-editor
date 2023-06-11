@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import java.awt.Component;
 import java.awt.Point;
 
-import canvas.Port;
+import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 
 public abstract class BasicComponent extends CanvasComponent {

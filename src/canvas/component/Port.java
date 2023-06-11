@@ -1,4 +1,4 @@
-package canvas;
+package canvas.component;
 
 import java.awt.Point;
 

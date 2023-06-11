@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Point;
 
 import canvas.CanvasControll;
-import canvas.Port;
+import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 import canvas.component.factory.ConnectionComponentFactory;
 

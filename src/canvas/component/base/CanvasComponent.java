@@ -2,7 +2,7 @@ package canvas.component.base;
 
 import javax.swing.JPanel;
 
-import canvas.Port;
+import canvas.component.Port;
 
 import java.awt.Graphics;
 import java.awt.Point;

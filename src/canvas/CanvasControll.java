@@ -6,9 +6,7 @@ import javax.swing.JPanel;
 import canvas.component.base.CanvasComponent;
 import canvas.component.basic.ClassComponent;
 import canvas.component.basic.UseCaseComponent;
-import canvas.component.factory.BasicComponentFactory;
 import canvas.component.factory.ConnectionComponentFactory;
-import canvas.mode.AddBasicMode;
 import canvas.mode.AddConnectionMode;
 import canvas.mode.Mode;
 
