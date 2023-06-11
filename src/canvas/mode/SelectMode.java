@@ -2,7 +2,7 @@ package canvas.mode;
 
 import java.awt.event.MouseEvent;
 
-public class SelectMode implements Mode {
+public class SelectMode extends Mode {
     @Override
     public void mouseDragged(MouseEvent e) {
         // do nothing

@@ -1,10 +1,11 @@
 package canvas.component;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import canvas.component.base.CanvasComponent;
 
-public class Port {
+public class Port implements Serializable {
     public static final String TOP_SIDE = "top";
     public static final String BOTTOM_SIDE = "bottom";
     public static final String LEFT_SIDE = "left";

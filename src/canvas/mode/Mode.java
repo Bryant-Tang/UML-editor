@@ -1,7 +1,7 @@
 package canvas.mode;
 
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseAdapter;
+import java.io.Serializable;
 
-public interface Mode extends MouseListener, MouseMotionListener {
+public abstract class Mode extends MouseAdapter implements Serializable {
 }
