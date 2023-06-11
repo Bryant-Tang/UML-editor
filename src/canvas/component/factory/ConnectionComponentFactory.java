@@ -5,6 +5,7 @@ import java.awt.Point;
 import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 import canvas.component.connection.ConnectionComponent;
+import canvas.component.connection.Arrow;
 
 public class ConnectionComponentFactory implements CanvasComponentFactory {
     public static final String ASSOCIATION = "association";
@@ -17,7 +18,7 @@ public class ConnectionComponentFactory implements CanvasComponentFactory {
     @Override
     public CanvasComponent create(String type, Port startPort, Port endPort) {
         if (type.equals(ASSOCIATION)) {
-            return new ConnectionComponent(startPort, endPort);
+            return new ConnectionComponent(startPort, endPort,new Arrow());
         } else {
             return null;
         }

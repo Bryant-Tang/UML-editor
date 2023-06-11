@@ -12,12 +12,20 @@ public class ConnectionComponent extends CanvasComponent {
 
     private Port startPort;
     private Port endPort;
+    private Arrow arrow;
 
-    public ConnectionComponent(Port startPort, Port endPort) {
+    public ConnectionComponent(Port startPort, Port endPort, Arrow arrow) {
         super(leftTopPosition);
+        initArrow(arrow);
         setConnect(startPort, endPort);
         resize();
         setOpaque(false);
+        setLayout(null);
+    }
+
+    private void initArrow(Arrow arrow) {
+        this.arrow = arrow;
+        add(arrow);
     }
 
     public void setConnect(Port startPort, Port endPort) {
@@ -29,12 +37,41 @@ public class ConnectionComponent extends CanvasComponent {
     protected void resize() {
         setPreferredSize(CanvasControll.getInstance().getSize());
         super.resize();
+        setArrowLocation();
+    }
+
+    private void setArrowLocation() {
+        arrow.setLocation(endPort.getPosition());
+        arrow.shift(-(arrow.getWidth() / 2), -(arrow.getHeight() / 2));
+        if (endPort.getSide().equals(Port.TOP_SIDE)) {
+            arrow.shift(0, -(arrow.getHeight() / 2));
+        } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
+            arrow.shift(0, arrow.getHeight() / 2);
+        } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
+            arrow.shift(-(arrow.getWidth() / 2), 0);
+        } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
+            arrow.shift(arrow.getWidth() / 2, 0);
+        }
+    }
+
+    private Point getLineEndPosition() {
+        Point lineEndPosition = new Point(endPort.getPosition());
+        if (endPort.getSide().equals(Port.TOP_SIDE)) {
+            lineEndPosition.y -= arrow.getHeight();
+        } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
+            lineEndPosition.y += arrow.getHeight();
+        } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
+            lineEndPosition.x -= arrow.getWidth();
+        } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
+            lineEndPosition.x += arrow.getWidth();
+        }
+        return lineEndPosition;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawLine(startPort.getPosition().x, startPort.getPosition().y, endPort.getPosition().x,
-                endPort.getPosition().y);
+        g.drawLine(startPort.getPosition().x, startPort.getPosition().y, getLineEndPosition().x,
+                getLineEndPosition().y);
         super.paintComponent(g);
     }
 }

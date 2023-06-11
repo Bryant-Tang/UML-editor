@@ -26,4 +26,8 @@ public class Port {
             return leftTopPosition;
         }
     }
+
+    public String getSide() {
+        return side;
+    }
 }
