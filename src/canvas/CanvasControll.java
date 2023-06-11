@@ -50,9 +50,9 @@ public class CanvasControll {
         canvasPanel.setBackground(Color.WHITE);
         canvasPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         canvasPanel.setLayout(null);
-        addComponent(new ClassComponent(new Point(10, 10), "name"));
+        addComponent(new ClassComponent(new Point(30, 30), "name"));
         addComponent(new UseCaseComponent(new Point(210, 210), "name"));
-        setMode(new AddConnectionMode(new ConnectionComponentFactory(), ConnectionComponentFactory.ASSOCIATION));
+        setMode(new AddConnectionMode(new ConnectionComponentFactory(), ConnectionComponentFactory.GENERALIZATION));
     }
 
     public Dimension getSize() {

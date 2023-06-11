@@ -6,6 +6,7 @@ import java.awt.Point;
 import canvas.CanvasControll;
 import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
+import canvas.component.connection.arrow.Arrow;
 
 public class ConnectionComponent extends CanvasComponent {
     static Point leftTopPosition = new Point(0, 0);
@@ -14,13 +15,21 @@ public class ConnectionComponent extends CanvasComponent {
     private Port endPort;
     private Arrow arrow;
 
-    public ConnectionComponent(Port startPort, Port endPort, Arrow arrow) {
+    public ConnectionComponent(Port startPort, Port endPort) {
         super(leftTopPosition);
-        initArrow(arrow);
         setConnect(startPort, endPort);
         resize();
         setOpaque(false);
         setLayout(null);
+    }
+
+    public void setArrow(Arrow arrow) {
+        if (this.arrow == null) {
+            initArrow(arrow);
+        } else {
+            this.arrow = arrow;
+        }
+        this.arrow.setBelongConnection(this);
     }
 
     private void initArrow(Arrow arrow) {
@@ -41,31 +50,48 @@ public class ConnectionComponent extends CanvasComponent {
     }
 
     private void setArrowLocation() {
-        arrow.setLocation(endPort.getPosition());
-        arrow.shift(-(arrow.getWidth() / 2), -(arrow.getHeight() / 2));
-        if (endPort.getSide().equals(Port.TOP_SIDE)) {
-            arrow.shift(0, -(arrow.getHeight() / 2));
-        } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
-            arrow.shift(0, arrow.getHeight() / 2);
-        } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
-            arrow.shift(-(arrow.getWidth() / 2), 0);
-        } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
-            arrow.shift(arrow.getWidth() / 2, 0);
+        if (arrow != null) {
+            arrow.setLocation(endPort.getPosition());
+            arrow.shift(-(arrow.getWidth() / 2), -(arrow.getHeight() / 2));
+            if (endPort.getSide().equals(Port.TOP_SIDE)) {
+                arrow.shift(0, -(arrow.getHeight() / 2));
+            } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
+                arrow.shift(0, arrow.getHeight() / 2);
+            } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
+                arrow.shift(-(arrow.getWidth() / 2), 0);
+            } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
+                arrow.shift(arrow.getWidth() / 2, 0);
+            }
         }
     }
 
     private Point getLineEndPosition() {
         Point lineEndPosition = new Point(endPort.getPosition());
-        if (endPort.getSide().equals(Port.TOP_SIDE)) {
-            lineEndPosition.y -= arrow.getHeight();
-        } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
-            lineEndPosition.y += arrow.getHeight();
-        } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
-            lineEndPosition.x -= arrow.getWidth();
-        } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
-            lineEndPosition.x += arrow.getWidth();
+        if (arrow != null) {
+            if (endPort.getSide().equals(Port.TOP_SIDE)) {
+                lineEndPosition.y -= arrow.getHeight();
+            } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
+                lineEndPosition.y += arrow.getHeight();
+            } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
+                lineEndPosition.x -= arrow.getWidth();
+            } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
+                lineEndPosition.x += arrow.getWidth();
+            }
         }
         return lineEndPosition;
+    }
+
+    public String getArrowDirection() {
+        if (endPort.getSide().equals(Port.TOP_SIDE)) {
+            return Arrow.GO_DOWN;
+        } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
+            return Arrow.GO_UP;
+        } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
+            return Arrow.GO_RIGHT;
+        } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
+            return Arrow.GO_LEFT;
+        }
+        return null;
     }
 
     @Override
