@@ -1,9 +1,7 @@
 package menu.item;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
-import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
 
 public class UngroupMenuItem extends ActionMenuItem {
