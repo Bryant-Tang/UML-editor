@@ -3,6 +3,7 @@ package canvas.component;
 import java.awt.Point;
 
 import canvas.component.base.CanvasComponent;
+import main.Calculate;
 
 public class Port {
     // public constant value
@@ -12,7 +13,7 @@ public class Port {
     public static final String RIGHT_SIDE = "right";
 
     // constant value
-    static Point leftTopPosition = new Point(0, 0);
+    static Point leftTopPosition = Calculate.ZERO_POINT;
 
     // record the CanvasComponent that this Port belong to
     private CanvasComponent comp;

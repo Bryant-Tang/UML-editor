@@ -10,11 +10,13 @@ import java.awt.Dimension;
 
 import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
+import main.Calculate;
 
 public abstract class BasicComponent extends CanvasComponent {
     // constant value
     static int borderThick = 1;
     static Dimension portSize = new Dimension(5, 5);
+    static Point leftTop = Calculate.ZERO_POINT;
 
     // the Label of the name of this component
     private JLabel nameLabel = new JLabel();
@@ -55,33 +57,22 @@ public abstract class BasicComponent extends CanvasComponent {
     private String getClosestSide(Point position) {
         double distance = Double.MAX_VALUE;
         String side = null;
-        if (distance >= calculateDistance(position, getTopCenterPositionOnCanvasPanel())) {
+        if (distance >= Calculate.calculateDistance(position, getTopCenterPositionOnCanvasPanel())) {
             side = Port.TOP_SIDE;
-            distance = calculateDistance(position, getTopCenterPositionOnCanvasPanel());
+            distance = Calculate.calculateDistance(position, getTopCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getBottomCenterPositionOnCanvasPanel())) {
+        if (distance >= Calculate.calculateDistance(position, getBottomCenterPositionOnCanvasPanel())) {
             side = Port.BOTTOM_SIDE;
-            distance = calculateDistance(position, getBottomCenterPositionOnCanvasPanel());
+            distance = Calculate.calculateDistance(position, getBottomCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getLeftCenterPositionOnCanvasPanel())) {
+        if (distance >= Calculate.calculateDistance(position, getLeftCenterPositionOnCanvasPanel())) {
             side = Port.LEFT_SIDE;
-            distance = calculateDistance(position, getLeftCenterPositionOnCanvasPanel());
+            distance = Calculate.calculateDistance(position, getLeftCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getRightCenterPositionOnCanvasPanel())) {
+        if (distance >= Calculate.calculateDistance(position, getRightCenterPositionOnCanvasPanel())) {
             side = Port.RIGHT_SIDE;
         }
         return side;
-    }
-
-    /**
-     * calculate the distance between two Point
-     * 
-     * @param a
-     * @param b
-     * @return the distance between a and b
-     */
-    protected double calculateDistance(Point a, Point b) {
-        return Math.sqrt((a.getX() - b.getX()) * (a.getX() - b.getX()) + (a.getY() - b.getY()) * (a.getY() - b.getY()));
     }
 
     /**
@@ -106,35 +97,37 @@ public abstract class BasicComponent extends CanvasComponent {
     }
 
     private Point getTopCenterPositionOnCanvasPanel() {
-        return new Point(getLocationOnCanvasPanel().x + getWidth() / 2, getLocationOnCanvasPanel().y);
+        return new Point(getLocationOnCanvasPanel().x + Calculate.half(getWidth()), getLocationOnCanvasPanel().y);
     }
 
     private Point getBottomCenterPositionOnCanvasPanel() {
-        return new Point(getLocationOnCanvasPanel().x + getWidth() / 2, getLocationOnCanvasPanel().y + getHeight());
+        return new Point(getLocationOnCanvasPanel().x + Calculate.half(getWidth()),
+                getLocationOnCanvasPanel().y + getHeight());
     }
 
     private Point getLeftCenterPositionOnCanvasPanel() {
-        return new Point(getLocationOnCanvasPanel().x, getLocationOnCanvasPanel().y + getHeight() / 2);
+        return new Point(getLocationOnCanvasPanel().x, getLocationOnCanvasPanel().y + Calculate.half(getHeight()));
     }
 
     private Point getRightCenterPositionOnCanvasPanel() {
-        return new Point(getLocationOnCanvasPanel().x + getWidth(), getLocationOnCanvasPanel().y + getHeight() / 2);
+        return new Point(getLocationOnCanvasPanel().x + getWidth(),
+                getLocationOnCanvasPanel().y + Calculate.half(getHeight()));
     }
 
     private Point getTopCenterInnerPosition() {
-        return new Point(getWidth() / 2, 0);
+        return new Point(Calculate.half(getWidth()), leftTop.y);
     }
 
     private Point getBottomCenterInnerPosition() {
-        return new Point(getWidth() / 2, getHeight() - borderThick);
+        return new Point(Calculate.half(getWidth()), getHeight() - borderThick);
     }
 
     private Point getLeftCenterInnerPosition() {
-        return new Point(0, getHeight() / 2);
+        return new Point(leftTop.x, Calculate.half(getHeight()));
     }
 
     private Point getRightCenterInnerPosition() {
-        return new Point(getWidth() - borderThick, getHeight() / 2);
+        return new Point(getWidth() - borderThick, Calculate.half(getHeight()));
     }
 
     @Override
@@ -145,16 +138,29 @@ public abstract class BasicComponent extends CanvasComponent {
         }
     }
 
+    private Point getTopPortLocation() {
+        return new Point(getTopCenterInnerPosition().x - Calculate.half(portSize.width), getTopCenterInnerPosition().y);
+    }
+
+    private Point getBottomPortLocation() {
+        return new Point(getBottomCenterInnerPosition().x - Calculate.half(portSize.width),
+                getBottomCenterInnerPosition().y - portSize.height);
+    }
+
+    private Point getLeftPortLocation() {
+        return new Point(getLeftCenterInnerPosition().x,
+                getLeftCenterInnerPosition().y - Calculate.half(portSize.height));
+    }
+
+    private Point getRightPortLocation() {
+        return new Point(getRightCenterInnerPosition().x - portSize.width,
+                getRightCenterInnerPosition().y - Calculate.half(portSize.height));
+    }
+
     private void paintPort(Graphics g) {
-        g.fillRect(getTopCenterInnerPosition().x - portSize.width / 2, getTopCenterInnerPosition().y, portSize.width,
-                portSize.height);
-        g.fillRect(getBottomCenterInnerPosition().x - portSize.width / 2,
-                getBottomCenterInnerPosition().y - portSize.height, portSize.width,
-                portSize.height);
-        g.fillRect(getLeftCenterInnerPosition().x, getLeftCenterInnerPosition().y - portSize.height / 2, portSize.width,
-                portSize.height);
-        g.fillRect(getRightCenterInnerPosition().x - portSize.width,
-                getRightCenterInnerPosition().y - portSize.height / 2, portSize.width,
-                portSize.height);
+        g.fillRect(getTopPortLocation().x, getTopPortLocation().y, portSize.width, portSize.height);
+        g.fillRect(getBottomPortLocation().x, getBottomPortLocation().y, portSize.width, portSize.height);
+        g.fillRect(getLeftPortLocation().x, getLeftPortLocation().y, portSize.width, portSize.height);
+        g.fillRect(getRightPortLocation().x, getRightPortLocation().y, portSize.width, portSize.height);
     }
 }

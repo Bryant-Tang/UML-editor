@@ -6,6 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import main.Calculate;
+
 public abstract class Arrow extends JPanel {
     // public constant value
     public static final String GO_UP = "go_up";
@@ -63,7 +65,7 @@ public abstract class Arrow extends JPanel {
      * @return the position of top center of this arrow
      */
     protected Point getTopCenterInnerPosition() {
-        return new Point(getWidth() / 2, borderThick);
+        return new Point(Calculate.half(getWidth()), borderThick);
     }
 
     /**
@@ -72,7 +74,7 @@ public abstract class Arrow extends JPanel {
      * @return the position of bottom center of this arrow
      */
     protected Point getBottomCenterInnerPosition() {
-        return new Point(getWidth() / 2, getHeight() - borderThick);
+        return new Point(Calculate.half(getWidth()), getHeight() - borderThick);
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class Arrow extends JPanel {
      * @return the position of left center of this arrow
      */
     protected Point getLeftCenterInnerPosition() {
-        return new Point(borderThick, getHeight() / 2);
+        return new Point(borderThick, Calculate.half(getHeight()));
     }
 
     /**
@@ -90,7 +92,7 @@ public abstract class Arrow extends JPanel {
      * @return the position of right center of this arrow
      */
     protected Point getRightCenterInnerPosition() {
-        return new Point(getWidth() - borderThick, getHeight() / 2);
+        return new Point(getWidth() - borderThick, Calculate.half(getHeight()));
     }
 
     /**

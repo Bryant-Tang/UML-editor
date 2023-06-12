@@ -8,10 +8,11 @@ import canvas.CanvasControll;
 import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 import canvas.component.connection.arrow.Arrow;
+import main.Calculate;
 
 public class ConnectionComponent extends CanvasComponent {
     // constant value
-    static Point leftTopPosition = new Point(0, 0);
+    static Point leftTopPosition = Calculate.ZERO_POINT;
 
     // this connection is from startPort to endPort
     // the start Port
@@ -69,15 +70,15 @@ public class ConnectionComponent extends CanvasComponent {
     private void setArrowLocation() {
         if (arrow != null) {
             arrow.setLocation(endPort.getPosition());
-            arrow.shift(-(arrow.getWidth() / 2), -(arrow.getHeight() / 2));
+            arrow.shift(-(Calculate.half(arrow.getWidth())), -(Calculate.half(arrow.getHeight())));
             if (endPort.getSide().equals(Port.TOP_SIDE)) {
-                arrow.shift(0, -(arrow.getHeight() / 2));
+                arrow.shift(0, -(Calculate.half(arrow.getHeight())));
             } else if (endPort.getSide().equals(Port.BOTTOM_SIDE)) {
-                arrow.shift(0, arrow.getHeight() / 2);
+                arrow.shift(0, Calculate.half(arrow.getHeight()));
             } else if (endPort.getSide().equals(Port.LEFT_SIDE)) {
-                arrow.shift(-(arrow.getWidth() / 2), 0);
+                arrow.shift(-(Calculate.half(arrow.getWidth())), 0);
             } else if (endPort.getSide().equals(Port.RIGHT_SIDE)) {
-                arrow.shift(arrow.getWidth() / 2, 0);
+                arrow.shift(Calculate.half(arrow.getWidth()), 0);
             }
         }
     }

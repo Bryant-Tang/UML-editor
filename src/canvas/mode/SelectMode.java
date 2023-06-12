@@ -2,11 +2,10 @@ package canvas.mode;
 
 import java.awt.event.MouseEvent;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Dimension;
 
 import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
+import main.Calculate;
 
 public class SelectMode extends Mode {
     // record the Point that mouse press on
@@ -25,13 +24,6 @@ public class SelectMode extends Mode {
     private void resetPress() {
         pressPoint = null;
         pressComponent = null;
-    }
-
-    // create rectangle by two Point
-    private Rectangle createRectangle(Point a, Point b) {
-        Point upperLeft = new Point(Math.min(a.x, b.x), Math.min(a.y, b.y));
-        Dimension size = new Dimension(Math.max(a.x, b.x) - upperLeft.x, Math.max(a.y, b.y) - upperLeft.y);
-        return new Rectangle(upperLeft, size);
     }
 
     /**
@@ -68,7 +60,7 @@ public class SelectMode extends Mode {
             if (pressComponent == null) {
                 clearSelect();
                 for (CanvasComponent comp : CanvasControll.getInstance()
-                        .getComponentInsideRectangle(createRectangle(pressPoint, releasePoint))) {
+                        .getComponentInsideRectangle(Calculate.createRectangle(pressPoint, releasePoint))) {
                     CanvasControll.getInstance().setSelectComponent(comp, true);
                 }
             } else {

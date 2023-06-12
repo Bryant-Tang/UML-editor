@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 import canvas.component.Port;
+import main.Calculate;
 
 public abstract class CanvasComponent extends JPanel {
     // constant value
@@ -183,24 +184,13 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     /**
-     * add two Point
-     * 
-     * @param a
-     * @param b
-     * @return the result Point of adding a and b
-     */
-    protected Point addTwoPoint(Point a, Point b) {
-        return new Point(a.x + b.x, a.y + b.y);
-    }
-
-    /**
      * get the location(on CanvasPanel) of this component
      * 
      * @return the location(on CanvasPanel) of this component
      */
     public Point getLocationOnCanvasPanel() {
         if (getParentCanvasComponent() != null) {
-            return addTwoPoint(getLocation(), getParentCanvasComponent().getLocationOnCanvasPanel());
+            return Calculate.addTwoPoint(getLocation(), getParentCanvasComponent().getLocationOnCanvasPanel());
         } else {
             return getLocation();
         }

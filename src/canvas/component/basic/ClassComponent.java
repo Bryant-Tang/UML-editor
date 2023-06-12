@@ -15,6 +15,7 @@ public class ClassComponent extends BasicComponent {
     static String emptyContent = " ";
     static int minContentPanelHeight = 10;
     static Dimension dividingLineSize = new Dimension(Integer.MAX_VALUE, 1);
+    static int dividingLineThick = 1;
 
     public ClassComponent(Point position, String name) {
         super(position, name);
@@ -43,7 +44,7 @@ public class ClassComponent extends BasicComponent {
 
     private Box.Filler createDividingLine() {
         Box.Filler dividingLine = new Box.Filler(null, null, dividingLineSize);
-        dividingLine.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
+        dividingLine.setBorder(BorderFactory.createMatteBorder(dividingLineThick, 0, 0, 0, Color.BLACK));
         return dividingLine;
     }
 }
