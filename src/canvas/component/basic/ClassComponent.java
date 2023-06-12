@@ -30,6 +30,11 @@ public class ClassComponent extends BasicComponent {
         addContent(emptyContent);
     }
 
+    /**
+     * add content to this ClassComponent
+     * 
+     * @param content
+     */
     public void addContent(String content) {
         JLabel newLabel = new JLabel(content);
         newLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

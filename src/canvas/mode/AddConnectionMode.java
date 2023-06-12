@@ -9,7 +9,9 @@ import canvas.component.base.CanvasComponent;
 import canvas.component.factory.ConnectionComponentFactory;
 
 public class AddConnectionMode extends AddComponentMode {
+    // record what type of basic component to add
     private String createType;
+    // record the Port of the component that mouse press on
     private Port pressPort;
 
     public AddConnectionMode(ConnectionComponentFactory factory, String createType) {
@@ -18,10 +20,12 @@ public class AddConnectionMode extends AddComponentMode {
         resetPress();
     }
 
+    // clear pressPort
     private void resetPress() {
         pressPort = null;
     }
 
+    // get the Port of the component at the specific position(on CanvasPanel)
     private Port getPort(Point position) {
         Port port = null;
         CanvasComponent comp = CanvasControll.getInstance().getComponentAt(position);
@@ -31,11 +35,17 @@ public class AddConnectionMode extends AddComponentMode {
         return port;
     }
 
+    /**
+     * set the Port of the component that mouse press on
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         pressPort = getPort(e.getPoint());
     }
 
+    /**
+     * add ConnectionComponent base on the pressPort that is set when mouse press
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         Port releasePort = getPort(e.getPoint());

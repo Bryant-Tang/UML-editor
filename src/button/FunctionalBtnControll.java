@@ -14,6 +14,7 @@ import canvas.mode.AddConnectionMode;
 import canvas.mode.SelectMode;
 
 public class FunctionalBtnControll {
+    // public constant value
     public static final String SELECT_BTN = "select";
     public static final String ASSOCIATION_BTN = "association";
     public static final String COMPOSITION_BTN = "composition";
@@ -21,6 +22,7 @@ public class FunctionalBtnControll {
     public static final String CLASS_BTN = "class";
     public static final String USE_CASE_BTN = "use_case";
 
+    // constant value
     static String[] buttonList = { SELECT_BTN, ASSOCIATION_BTN, GENERALIZATION_BTN, COMPOSITION_BTN, CLASS_BTN,
             USE_CASE_BTN };
     static String selectBtnIconPath = "icon/select_button.png";
@@ -35,8 +37,14 @@ public class FunctionalBtnControll {
     private static FunctionalBtnControll uniqueInstance;
 
     private FunctionalBtnControll() {
+        initFunctionalBtnPanel();
     }
 
+    /**
+     * get the unique single instance
+     * 
+     * @return the unique single instance of FunctionalBtnControll
+     */
     public static FunctionalBtnControll getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new FunctionalBtnControll();
@@ -44,20 +52,22 @@ public class FunctionalBtnControll {
         return uniqueInstance;
     }
 
-    private JPanel functioanalBtnPanel;
+    private JPanel functionalBtnPanel;
 
-    public JPanel getFunctioanalBtnPanel() {
-        if (functioanalBtnPanel == null) {
-            initFunctioanalBtnPanel();
-        }
-        return functioanalBtnPanel;
+    /**
+     * get the functional button panel
+     * 
+     * @return the functional button panel
+     */
+    public JPanel getFunctionalBtnPanel() {
+        return functionalBtnPanel;
     }
 
-    private void initFunctioanalBtnPanel() {
-        functioanalBtnPanel = new JPanel();
-        functioanalBtnPanel.setLayout(new BoxLayout(functioanalBtnPanel, BoxLayout.PAGE_AXIS));
+    private void initFunctionalBtnPanel() {
+        functionalBtnPanel = new JPanel();
+        functionalBtnPanel.setLayout(new BoxLayout(functionalBtnPanel, BoxLayout.PAGE_AXIS));
         for (String btn : buttonList) {
-            functioanalBtnPanel.add(createFunctionalBtn(btn));
+            functionalBtnPanel.add(createFunctionalBtn(btn));
         }
     }
 

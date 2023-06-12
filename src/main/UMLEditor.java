@@ -22,6 +22,11 @@ public class UMLEditor {
     private UMLEditor() {
     }
 
+    /**
+     * get the unique single instance
+     * 
+     * @return the unique single instance of UMLEditor
+     */
     public static UMLEditor getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new UMLEditor();
@@ -65,7 +70,7 @@ public class UMLEditor {
      * do anything about functional button that need to initialize
      */
     private void addButtonPane() {
-        mainFrame.add(FunctionalBtnControll.getInstance().getFunctioanalBtnPanel(), BorderLayout.LINE_START);
+        mainFrame.add(FunctionalBtnControll.getInstance().getFunctionalBtnPanel(), BorderLayout.LINE_START);
     }
 
     /**
@@ -81,9 +86,16 @@ public class UMLEditor {
      */
     private void show() {
         mainFrame.pack();
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
 
+    /**
+     * show another frame and make the location of the frame relative to the
+     * main frame
+     * 
+     * @param frame the frame to show
+     */
     public void showAdditionalFrame(JFrame frame) {
         frame.setLocationRelativeTo(mainFrame);
         frame.setVisible(true);

@@ -12,10 +12,13 @@ import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 
 public abstract class BasicComponent extends CanvasComponent {
+    // constant value
     static int borderThick = 1;
     static Dimension portSize = new Dimension(5, 5);
 
+    // the Label of the name of this component
     private JLabel nameLabel = new JLabel();
+    // the Panel that contain the name Label
     protected JPanel namePanel = new JPanel();
 
     protected BasicComponent(Point position, String name) {
@@ -37,6 +40,13 @@ public abstract class BasicComponent extends CanvasComponent {
         super.setName(name);
     }
 
+    /**
+     * get the Port of this component, and the Port is closest to the given
+     * position
+     * 
+     * @param position a position(on CanvasPanel)
+     * @return the Port closest to the given position
+     */
     @Override
     public Port getPort(Point position) {
         return new Port(this, getClosestSide(position));
@@ -45,57 +55,70 @@ public abstract class BasicComponent extends CanvasComponent {
     private String getClosestSide(Point position) {
         double distance = Double.MAX_VALUE;
         String side = null;
-        if (distance >= calculateDistance(position, getTopCenterPositionOfCanvas())) {
+        if (distance >= calculateDistance(position, getTopCenterPositionOnCanvasPanel())) {
             side = Port.TOP_SIDE;
-            distance = calculateDistance(position, getTopCenterPositionOfCanvas());
+            distance = calculateDistance(position, getTopCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getBottomCenterPositionOfCanvas())) {
+        if (distance >= calculateDistance(position, getBottomCenterPositionOnCanvasPanel())) {
             side = Port.BOTTOM_SIDE;
-            distance = calculateDistance(position, getBottomCenterPositionOfCanvas());
+            distance = calculateDistance(position, getBottomCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getLeftCenterPositionOfCanvas())) {
+        if (distance >= calculateDistance(position, getLeftCenterPositionOnCanvasPanel())) {
             side = Port.LEFT_SIDE;
-            distance = calculateDistance(position, getLeftCenterPositionOfCanvas());
+            distance = calculateDistance(position, getLeftCenterPositionOnCanvasPanel());
         }
-        if (distance >= calculateDistance(position, getRightCenterPositionOfCanvas())) {
+        if (distance >= calculateDistance(position, getRightCenterPositionOnCanvasPanel())) {
             side = Port.RIGHT_SIDE;
         }
         return side;
     }
 
-    private double calculateDistance(Point a, Point b) {
+    /**
+     * calculate the distance between two Point
+     * 
+     * @param a
+     * @param b
+     * @return the distance between a and b
+     */
+    protected double calculateDistance(Point a, Point b) {
         return Math.sqrt((a.getX() - b.getX()) * (a.getX() - b.getX()) + (a.getY() - b.getY()) * (a.getY() - b.getY()));
     }
 
+    /**
+     * get the port position(on CanvasPanel)
+     * 
+     * @param side specific which side of the port
+     * @return the position(on CanvasPanel) of the port on the side
+     */
     @Override
     public Point getPortPosition(String side) {
         if (side.equals(Port.TOP_SIDE)) {
-            return getTopCenterPositionOfCanvas();
+            return getTopCenterPositionOnCanvasPanel();
         } else if (side.equals(Port.BOTTOM_SIDE)) {
-            return getBottomCenterPositionOfCanvas();
+            return getBottomCenterPositionOnCanvasPanel();
         } else if (side.equals(Port.LEFT_SIDE)) {
-            return getLeftCenterPositionOfCanvas();
+            return getLeftCenterPositionOnCanvasPanel();
         } else if (side.equals(Port.RIGHT_SIDE)) {
-            return getRightCenterPositionOfCanvas();
+            return getRightCenterPositionOnCanvasPanel();
         } else {
             return null;
         }
     }
 
-    private Point getTopCenterPositionOfCanvas() {
-        return new Point(getLocationOfCanvas().x + getWidth() / 2, getLocationOfCanvas().y);
+    private Point getTopCenterPositionOnCanvasPanel() {
+        return new Point(getLocationOnCanvasPanel().x + getWidth() / 2, getLocationOnCanvasPanel().y);
     }
 
-    private Point getBottomCenterPositionOfCanvas() {
-        return new Point(getLocationOfCanvas().x + getWidth() / 2, getLocationOfCanvas().y + getHeight());
+    private Point getBottomCenterPositionOnCanvasPanel() {
+        return new Point(getLocationOnCanvasPanel().x + getWidth() / 2, getLocationOnCanvasPanel().y + getHeight());
     }
 
-    private Point getLeftCenterPositionOfCanvas() {
-        return new Point(getLocationOfCanvas().x, getLocationOfCanvas().y + getHeight() / 2);
+    private Point getLeftCenterPositionOnCanvasPanel() {
+        return new Point(getLocationOnCanvasPanel().x, getLocationOnCanvasPanel().y + getHeight() / 2);
     }
 
-    private Point getRightCenterPositionOfCanvas() {
-        return new Point(getLocationOfCanvas().x + getWidth(), getLocationOfCanvas().y + getHeight() / 2);
+    private Point getRightCenterPositionOnCanvasPanel() {
+        return new Point(getLocationOnCanvasPanel().x + getWidth(), getLocationOnCanvasPanel().y + getHeight() / 2);
     }
 
     private Point getTopCenterInnerPosition() {

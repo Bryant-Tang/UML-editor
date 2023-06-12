@@ -8,19 +8,21 @@ import canvas.component.base.CanvasComponent;
 import canvas.component.factory.GroupComponentFactory;
 
 public class GroupMenuItem extends ActionMenuItem {
+    // constant value
     static String groupMenuItemText = "group";
-
-    private GroupComponentFactory factory = new GroupComponentFactory();
 
     public GroupMenuItem() {
         super(groupMenuItemText);
     }
 
+    /**
+     * create group component base on the selected components
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         List<CanvasComponent> components = CanvasControll.getInstance().getSelectComponents();
         if (components.size() > 1) {
-            CanvasControll.getInstance().addComponent(factory.create(components));
+            CanvasControll.getInstance().addComponent((new GroupComponentFactory()).create(components));
         }
     }
 }

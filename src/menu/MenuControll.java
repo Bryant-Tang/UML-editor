@@ -12,26 +12,26 @@ public class MenuControll {
     static String fileMenuText = "File";
     static String editMenuText = "Edit";
 
+    // the menu bar to controll
+    private JMenuBar menuBar;
+
     // singleton instaance
     private static MenuControll uniqueInstance;
 
     private MenuControll() {
+        initMenuBar();
     }
 
+    /**
+     * get the unique single instance
+     * 
+     * @return the unique single instance of MenuControll
+     */
     public static MenuControll getInstance() {
         if (uniqueInstance == null) {
             uniqueInstance = new MenuControll();
         }
         return uniqueInstance;
-    }
-
-    private JMenuBar menuBar;
-
-    public JMenuBar getMenuBar() {
-        if (menuBar == null) {
-            initMenuBar();
-        }
-        return menuBar;
     }
 
     private void initMenuBar() {
@@ -43,5 +43,14 @@ public class MenuControll {
         editMenu.add(new UngroupMenuItem());
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
+    }
+
+    /**
+     * get the menu bar
+     * 
+     * @return the menu bar as JMenuBar
+     */
+    public JMenuBar getMenuBar() {
+        return menuBar;
     }
 }

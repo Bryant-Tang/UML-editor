@@ -22,6 +22,12 @@ public class GroupComponentFactory extends CanvasComponentFactory {
         return new Point(minX, minY);
     }
 
+    /**
+     * create GroupComponent
+     * 
+     * @param components the component inside the create group
+     * @return the create component
+     */
     @Override
     public CanvasComponent create(List<CanvasComponent> components) {
         CanvasComponent group = new GroupComponent(getLeftTop(components));

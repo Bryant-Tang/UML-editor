@@ -13,6 +13,7 @@ import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
 
 public class GroupComponent extends CanvasComponent {
+    // record the CanvasComponent inside this component
     ArrayList<CanvasComponent> components = new ArrayList<>();
 
     public GroupComponent(Point position) {
@@ -21,10 +22,12 @@ public class GroupComponent extends CanvasComponent {
         setOpaque(false);
     }
 
+    // get left top of two Point
     private Point getLeftTop(Point a, Point b) {
         return new Point(Math.min(a.x, b.x), Math.min(a.y, b.y));
     }
 
+    // get left top position of lots components
     private Point getLeftTop(List<CanvasComponent> components) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
@@ -39,6 +42,7 @@ public class GroupComponent extends CanvasComponent {
         return new Point(minX, minY);
     }
 
+    // get right bottom position of lots components
     private Point getRightBottom(List<CanvasComponent> components) {
         int maxX = 0;
         int maxY = 0;
@@ -53,17 +57,23 @@ public class GroupComponent extends CanvasComponent {
         return new Point(maxX, maxY);
     }
 
+    // set the location of this GroupComponent but the inside components stay where
+    // they are
     private void setLocationWithoutMovingContent(Point position) {
-        for (CanvasComponent comp : components) {
-            comp.shift(new Point(getLocation().x - position.x, getLocation().y - position.y));
-        }
-        setLocation(position);
+        setLocationWithoutMovingContent(position.x, position.y);
     }
 
+    // set the location of this GroupComponent but the inside components stay where
+    // they are
     private void setLocationWithoutMovingContent(int x, int y) {
-        setLocationWithoutMovingContent(new Point(x, y));
+        for (CanvasComponent comp : components) {
+            comp.shift(new Point(getLocation().x - x, getLocation().y - y));
+        }
+        setLocation(x, y);
+
     }
 
+    // get the fit size of the components inside this GroupComponent
     private Dimension getInnerComponentMinSize() {
         return new Dimension(getRightBottom(components).x - getLeftTop(components).x,
                 getRightBottom(components).y - getLeftTop(components).y);
@@ -77,6 +87,11 @@ public class GroupComponent extends CanvasComponent {
         super.resize();
     }
 
+    /**
+     * add a CanvasComponent into this component
+     * 
+     * @param comp the component to add
+     */
     @Override
     public void addGroupContent(CanvasComponent comp) {
         setLocationWithoutMovingContent(getLeftTop(getLocation(), comp.getLocation()));
@@ -88,6 +103,11 @@ public class GroupComponent extends CanvasComponent {
         this.add(comp);
     }
 
+    /**
+     * remove a CanvasComponent from this component
+     * 
+     * @param comp the component to add
+     */
     @Override
     public void removeGroupContent(CanvasComponent comp) {
         remove(comp);
@@ -96,6 +116,9 @@ public class GroupComponent extends CanvasComponent {
         CanvasControll.getInstance().addComponent(comp);
     }
 
+    /**
+     * destruct this GroupComponent
+     */
     @Override
     public void ungroup() {
         for (CanvasComponent comp : components) {

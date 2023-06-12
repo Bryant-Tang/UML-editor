@@ -13,6 +13,15 @@ public class ConnectionComponentFactory extends CanvasComponentFactory {
     public static final String GENERALIZATION = "generalization";
     public static final String ONLY_LINE = "line";
 
+    /**
+     * create ConnectionComponent
+     * 
+     * @param type      the type indicate what component to create (should be
+     *                  <code>BasicComponentFactory.ASSOCIATION</code>/<code>BasicComponentFactory.COMPOSITION</code>/<code>BasicComponentFactory.GENERALIZATION</code>/<code>BasicComponentFactory.ONLY_LINE</code>)
+     * @param startPort the start port of the create connection
+     * @param endPort   the end port of the create connection
+     * @return the create component
+     */
     @Override
     public CanvasComponent create(String type, Port startPort, Port endPort) {
         ConnectionComponent comp = new ConnectionComponent(startPort, endPort);

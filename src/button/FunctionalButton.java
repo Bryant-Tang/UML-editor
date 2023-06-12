@@ -15,9 +15,12 @@ import canvas.CanvasControll;
 import canvas.mode.Mode;
 
 public class FunctionalButton extends JButton implements FocusListener {
+    // constant value
     static String buttonUIManagerKey = "Button.border";
     static int selectedBorderThick = 5;
     static Dimension size = new Dimension(80, 80);
+
+    // the mode to set to Cancas when this button be clicked
     private Mode mode;
 
     public FunctionalButton(Mode mode, ImageIcon icon) {
@@ -31,6 +34,13 @@ public class FunctionalButton extends JButton implements FocusListener {
         setFocusPainted(false);
     }
 
+    /**
+     * Invoked when this button gains the focus.
+     * Setting the mode of Canvas.
+     * Setting this button to have black thick border.
+     * 
+     * @param e the event to be processed
+     */
     @Override
     public void focusGained(FocusEvent e) {
         CanvasControll.getInstance().setMode(mode);
@@ -38,6 +48,12 @@ public class FunctionalButton extends JButton implements FocusListener {
                 selectedBorderThick, Color.BLACK));
     }
 
+    /**
+     * Invoked when this button loses the focus.
+     * Setting this button to have normal border.
+     * 
+     * @param e the event to be processed
+     */
     @Override
     public void focusLost(FocusEvent e) {
         setBorder(UIManager.getBorder(buttonUIManagerKey));
