@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Dimension;
 
 import canvas.component.Port;
@@ -36,11 +35,6 @@ public abstract class BasicComponent extends CanvasComponent {
     public void setName(String name) {
         nameLabel.setText(name);
         super.setName(name);
-    }
-
-    @Override
-    public void shift(Point shift) {
-        setLocation(getX() + shift.x, getY() + shift.y);
     }
 
     @Override
@@ -118,24 +112,6 @@ public abstract class BasicComponent extends CanvasComponent {
 
     private Point getRightCenterInnerPosition() {
         return new Point(getWidth() - borderThick, getHeight() / 2);
-    }
-
-    @Override
-    public boolean isPositionInside(Point position) {
-        return position.x >= getX() && position.x <= getX() + getWidth() && position.y >= getY()
-                && position.y <= getY() + getHeight();
-    }
-
-    @Override
-    public boolean isInsideRectangle(Rectangle rect) {
-        return getX() >= rect.x && getY() >= rect.y && getX() + getWidth() <= rect.x + rect.width
-                && getY() + getHeight() <= rect.y + rect.height;
-    }
-
-    @Override
-    public void setSelect(boolean select) {
-        this.select = select;
-        super.setSelect(select);
     }
 
     @Override

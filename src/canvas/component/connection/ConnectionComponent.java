@@ -2,6 +2,7 @@ package canvas.component.connection;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import canvas.CanvasControll;
 import canvas.component.Port;
@@ -99,5 +100,25 @@ public class ConnectionComponent extends CanvasComponent {
         g.drawLine(startPort.getPosition().x, startPort.getPosition().y, getLineEndPosition().x,
                 getLineEndPosition().y);
         super.paintComponent(g);
+    }
+
+    @Override
+    public boolean isPositionInside(Point position) {
+        return false;
+    }
+
+    @Override
+    public boolean isInsideRectangle(Rectangle rect) {
+        return false;
+    }
+
+    @Override
+    public void setSelect(boolean select) {
+        // connection component is not selectable for now
+    }
+
+    @Override
+    public void shift(Point shift) {
+        // connection component is not shiftable for now
     }
 }

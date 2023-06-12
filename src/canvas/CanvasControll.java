@@ -85,6 +85,12 @@ public class CanvasControll {
         canvasPanel.repaint();
     }
 
+    public void removeComponent(CanvasComponent comp) {
+        allCanvasComponent.remove(comp);
+        canvasPanel.remove(comp);
+        canvasPanel.repaint();
+    }
+
     public void setMode(Mode mode) {
         clearMode();
         canvasPanel.addMouseListener(mode);

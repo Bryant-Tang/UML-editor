@@ -33,6 +33,7 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     public void shift(Point shift) {
+        setLocation(getX() + shift.x, getY() + shift.y);
     }
 
     public Port getPort(Point position) {
@@ -44,18 +45,35 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     public boolean isPositionInside(Point position) {
-        return false;
+        return position.x >= getX() && position.x <= getX() + getWidth() && position.y >= getY()
+                && position.y <= getY() + getHeight();
     }
 
     public boolean isInsideRectangle(Rectangle rect) {
-        return false;
+        return getX() >= rect.x && getY() >= rect.y && getX() + getWidth() <= rect.x + rect.width
+                && getY() + getHeight() <= rect.y + rect.height;
+
     }
 
     public void setSelect(boolean select) {
+        this.select = select;
         repaint();
     }
 
     public boolean isSelect() {
         return select;
+    }
+
+    public void addGroupContent(CanvasComponent components) {
+    }
+
+    public void removeGroupContent(CanvasComponent components) {
+    }
+
+    public void ungroup() {
+    }
+
+    public Point getRigntBottomLocation() {
+        return new Point(getX() + getWidth(), getY() + getHeight());
     }
 }
