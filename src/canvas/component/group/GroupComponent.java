@@ -83,6 +83,7 @@ public class GroupComponent extends CanvasComponent {
         CanvasControll.getInstance().removeComponent(comp);
         comp.setSelect(false);
         comp.shift(new Point(-getX(), -getY()));
+        comp.setParent(this);
         this.components.add(comp);
         this.add(comp);
     }
@@ -90,6 +91,7 @@ public class GroupComponent extends CanvasComponent {
     @Override
     public void removeGroupContent(CanvasComponent comp) {
         remove(comp);
+        comp.setParent(null);
         comp.shift(getLocation());
         CanvasControll.getInstance().addComponent(comp);
     }
@@ -97,9 +99,7 @@ public class GroupComponent extends CanvasComponent {
     @Override
     public void ungroup() {
         for (CanvasComponent comp : components) {
-            remove(comp);
-            comp.shift(getLocation());
-            CanvasControll.getInstance().addComponent(comp);
+            removeGroupContent(comp);
         }
         CanvasControll.getInstance().removeComponent(this);
     }

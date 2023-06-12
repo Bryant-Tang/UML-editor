@@ -14,7 +14,7 @@ public class SelectMode extends Mode {
 
     private void clearSelect() {
         for (CanvasComponent comp : CanvasControll.getInstance().getAllComponent()) {
-            comp.setSelect(false);
+            CanvasControll.getInstance().setSelectComponent(comp, false);
         }
     }
 
@@ -28,7 +28,7 @@ public class SelectMode extends Mode {
         CanvasComponent comp = CanvasControll.getInstance().getComponentAt(e.getPoint());
         clearSelect();
         if (comp != null) {
-            comp.setSelect(true);
+            CanvasControll.getInstance().setSelectComponent(comp, true);
         }
     }
 
@@ -47,15 +47,17 @@ public class SelectMode extends Mode {
     @Override
     public void mouseReleased(MouseEvent e) {
         Point releasePoint = e.getPoint();
-        if (pressComponent == null && !pressPoint.equals(releasePoint)) {
-            clearSelect();
-            for (CanvasComponent comp : CanvasControll.getInstance()
-                    .getComponentInsideRectangle(createRectangle(pressPoint, releasePoint))) {
-                comp.setSelect(true);
+        if (!pressPoint.equals(releasePoint)) {
+            if (pressComponent == null) {
+                clearSelect();
+                for (CanvasComponent comp : CanvasControll.getInstance()
+                        .getComponentInsideRectangle(createRectangle(pressPoint, releasePoint))) {
+                    CanvasControll.getInstance().setSelectComponent(comp, true);
+                }
+            } else {
+                CanvasControll.getInstance().shiftComponent(pressComponent,
+                        new Point(releasePoint.x - pressPoint.x, releasePoint.y - pressPoint.y));
             }
-        } else if (pressComponent != null) {
-            CanvasControll.getInstance().shiftComponent(pressComponent,
-                    new Point(releasePoint.x - pressPoint.x, releasePoint.y - pressPoint.y));
         }
         resetPress();
     }

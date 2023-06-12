@@ -45,19 +45,19 @@ public abstract class BasicComponent extends CanvasComponent {
     private String getClosestSide(Point position) {
         double distance = Double.MAX_VALUE;
         String side = null;
-        if (distance >= calculateDistance(position, getTopCenterPosition())) {
+        if (distance >= calculateDistance(position, getTopCenterPositionOfCanvas())) {
             side = Port.TOP_SIDE;
-            distance = calculateDistance(position, getTopCenterPosition());
+            distance = calculateDistance(position, getTopCenterPositionOfCanvas());
         }
-        if (distance >= calculateDistance(position, getBottomCenterPosition())) {
+        if (distance >= calculateDistance(position, getBottomCenterPositionOfCanvas())) {
             side = Port.BOTTOM_SIDE;
-            distance = calculateDistance(position, getBottomCenterPosition());
+            distance = calculateDistance(position, getBottomCenterPositionOfCanvas());
         }
-        if (distance >= calculateDistance(position, getLeftCenterPosition())) {
+        if (distance >= calculateDistance(position, getLeftCenterPositionOfCanvas())) {
             side = Port.LEFT_SIDE;
-            distance = calculateDistance(position, getLeftCenterPosition());
+            distance = calculateDistance(position, getLeftCenterPositionOfCanvas());
         }
-        if (distance >= calculateDistance(position, getRightCenterPosition())) {
+        if (distance >= calculateDistance(position, getRightCenterPositionOfCanvas())) {
             side = Port.RIGHT_SIDE;
         }
         return side;
@@ -70,32 +70,32 @@ public abstract class BasicComponent extends CanvasComponent {
     @Override
     public Point getPortPosition(String side) {
         if (side.equals(Port.TOP_SIDE)) {
-            return getTopCenterPosition();
+            return getTopCenterPositionOfCanvas();
         } else if (side.equals(Port.BOTTOM_SIDE)) {
-            return getBottomCenterPosition();
+            return getBottomCenterPositionOfCanvas();
         } else if (side.equals(Port.LEFT_SIDE)) {
-            return getLeftCenterPosition();
+            return getLeftCenterPositionOfCanvas();
         } else if (side.equals(Port.RIGHT_SIDE)) {
-            return getRightCenterPosition();
+            return getRightCenterPositionOfCanvas();
         } else {
             return null;
         }
     }
 
-    private Point getTopCenterPosition() {
-        return new Point(getX() + getWidth() / 2, getY());
+    private Point getTopCenterPositionOfCanvas() {
+        return new Point(getLocationOfCanvas().x + getWidth() / 2, getLocationOfCanvas().y);
     }
 
-    private Point getBottomCenterPosition() {
-        return new Point(getX() + getWidth() / 2, getY() + getHeight());
+    private Point getBottomCenterPositionOfCanvas() {
+        return new Point(getLocationOfCanvas().x + getWidth() / 2, getLocationOfCanvas().y + getHeight());
     }
 
-    private Point getLeftCenterPosition() {
-        return new Point(getX(), getY() + getHeight() / 2);
+    private Point getLeftCenterPositionOfCanvas() {
+        return new Point(getLocationOfCanvas().x, getLocationOfCanvas().y + getHeight() / 2);
     }
 
-    private Point getRightCenterPosition() {
-        return new Point(getX() + getWidth(), getY() + getHeight() / 2);
+    private Point getRightCenterPositionOfCanvas() {
+        return new Point(getLocationOfCanvas().x + getWidth(), getLocationOfCanvas().y + getHeight() / 2);
     }
 
     private Point getTopCenterInnerPosition() {

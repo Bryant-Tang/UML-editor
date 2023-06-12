@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CanvasControll {
     // constant value
-    static Dimension canvasPanelPreferredSize = new Dimension(400, 400);
+    static Dimension canvasPanelPreferredSize = new Dimension(600, 600);
 
     // singleton instaance
     private static CanvasControll uniqueInstance;
@@ -114,6 +114,13 @@ public class CanvasControll {
             }
         }
         return selectComponents;
+    }
+
+    public void setSelectComponent(CanvasComponent comp, boolean select) {
+        if (allCanvasComponent.contains(comp)) {
+            comp.setSelect(select);
+            canvasPanel.repaint();
+        }
     }
 
     public void shiftComponent(CanvasComponent comp, Point shift) {
