@@ -6,7 +6,6 @@ import canvas.component.Port;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
@@ -15,7 +14,7 @@ public abstract class CanvasComponent extends JPanel {
     static Dimension defaultSize = new Dimension(1, 1);
 
     protected boolean select = false;
-    protected CanvasComponent parent = null;
+    protected CanvasComponent parentOfCanvas = null;
 
     protected CanvasComponent(Point position) {
         super();
@@ -79,7 +78,7 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     public void setParent(CanvasComponent parent) {
-        this.parent = parent;
+        this.parentOfCanvas = parent;
     }
 
     protected Point addTwoPoint(Point a, Point b) {
@@ -87,8 +86,8 @@ public abstract class CanvasComponent extends JPanel {
     }
 
     public Point getLocationOfCanvas() {
-        if (parent != null) {
-            return addTwoPoint(getLocation(), parent.getLocationOfCanvas());
+        if (parentOfCanvas != null) {
+            return addTwoPoint(getLocation(), parentOfCanvas.getLocationOfCanvas());
         } else {
             return getLocation();
         }
