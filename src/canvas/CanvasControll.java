@@ -109,4 +109,11 @@ public class CanvasControll {
         }
         return selectComponents;
     }
+
+    public void shiftComponent(CanvasComponent comp, Point shift) {
+        if (allCanvasComponent.contains(comp)) {
+            comp.shift(shift);
+            canvasPanel.repaint();
+        }
+    }
 }

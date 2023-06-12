@@ -54,7 +54,8 @@ public class SelectMode extends Mode {
                 comp.setSelect(true);
             }
         } else if (pressComponent != null) {
-            pressComponent.shift(new Point(releasePoint.x - pressPoint.x, releasePoint.y - pressPoint.y));
+            CanvasControll.getInstance().shiftComponent(pressComponent,
+                    new Point(releasePoint.x - pressPoint.x, releasePoint.y - pressPoint.y));
         }
         resetPress();
     }
