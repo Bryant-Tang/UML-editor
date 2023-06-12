@@ -83,4 +83,10 @@ public class UMLEditor {
         mainFrame.pack();
         mainFrame.setVisible(true);
     }
+
+    public void showAdditionalFrame(JFrame frame) {
+        frame.setLocation(mainFrame.getX() + (mainFrame.getWidth() - frame.getWidth()) / 2,
+                mainFrame.getY() + (mainFrame.getHeight() - frame.getHeight()) / 2);
+        frame.setVisible(true);
+    }
 }

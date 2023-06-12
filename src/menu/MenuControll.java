@@ -2,15 +2,15 @@ package menu;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+
+import menu.item.GroupMenuItem;
+import menu.item.RenameMenuItem;
+import menu.item.UngroupMenuItem;
 
 public class MenuControll {
     // constant value
     static String fileMenuText = "File";
     static String editMenuText = "Edit";
-    static String renameMenuItemText = "rename";
-    static String groupMenuItemText = "group";
-    static String ungroupMenuItemText = "ungroup";
 
     // singleton instaance
     private static MenuControll uniqueInstance;
@@ -38,12 +38,9 @@ public class MenuControll {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu(fileMenuText);
         JMenu editMenu = new JMenu(editMenuText);
-        JMenuItem renameMenuItem = new JMenuItem(renameMenuItemText);
-        JMenuItem groupMenuItem = new JMenuItem(groupMenuItemText);
-        JMenuItem ungroupMenuItem = new JMenuItem(ungroupMenuItemText);
-        editMenu.add(renameMenuItem);
-        editMenu.add(groupMenuItem);
-        editMenu.add(ungroupMenuItem);
+        editMenu.add(new RenameMenuItem());
+        editMenu.add(new GroupMenuItem());
+        editMenu.add(new UngroupMenuItem());
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
     }
