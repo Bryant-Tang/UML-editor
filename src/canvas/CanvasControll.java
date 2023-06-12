@@ -11,7 +11,10 @@ import java.awt.Dimension;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Point;
+import java.awt.Rectangle;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class CanvasControll {
     // constant value
@@ -31,7 +34,7 @@ public class CanvasControll {
     }
 
     private JPanel canvasPanel;
-    private ArrayList<CanvasComponent> comps = new ArrayList<>();
+    private ArrayList<CanvasComponent> allCanvasComponent = new ArrayList<>();
 
     public JPanel getCanvasPanel() {
         if (canvasPanel == null) {
@@ -53,7 +56,7 @@ public class CanvasControll {
     }
 
     public CanvasComponent getComponentAt(Point position) {
-        for (CanvasComponent comp : comps) {
+        for (CanvasComponent comp : allCanvasComponent) {
             if (comp.isPositionInside(position)) {
                 return comp;
             }
@@ -61,9 +64,23 @@ public class CanvasControll {
         return null;
     }
 
+    public List<CanvasComponent> getComponentInsideRectangle(Rectangle rect) {
+        ArrayList<CanvasComponent> insideComponents = new ArrayList<>();
+        for (CanvasComponent comp : allCanvasComponent) {
+            if (comp.isInsideRectangle(rect)) {
+                insideComponents.add(comp);
+            }
+        }
+        return insideComponents;
+    }
+
+    public List<CanvasComponent> getAllComponent() {
+        return allCanvasComponent;
+    }
+
     public void addComponent(CanvasComponent comp) {
         // use index 0 to add to the head but not the end
-        comps.add(0, comp);
+        allCanvasComponent.add(0, comp);
         canvasPanel.add(comp, 0);
         canvasPanel.repaint();
     }
@@ -81,5 +98,15 @@ public class CanvasControll {
         for (MouseMotionListener mode : canvasPanel.getMouseMotionListeners()) {
             canvasPanel.removeMouseMotionListener(mode);
         }
+    }
+
+    public List<CanvasComponent> getSelectComponents() {
+        ArrayList<CanvasComponent> selectComponents = new ArrayList<>();
+        for (CanvasComponent comp : allCanvasComponent) {
+            if (comp.isSelect()) {
+                selectComponents.add(comp);
+            }
+        }
+        return selectComponents;
     }
 }

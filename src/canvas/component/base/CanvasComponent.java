@@ -7,10 +7,13 @@ import canvas.component.Port;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public abstract class CanvasComponent extends JPanel {
     // constant value
     static Dimension defaultSize = new Dimension(1, 1);
+
+    protected boolean select = false;
 
     protected CanvasComponent(Point position) {
         super();
@@ -42,5 +45,17 @@ public abstract class CanvasComponent extends JPanel {
 
     public boolean isPositionInside(Point position) {
         return false;
+    }
+
+    public boolean isInsideRectangle(Rectangle rect) {
+        return false;
+    }
+
+    public void setSelect(boolean select) {
+        repaint();
+    }
+
+    public boolean isSelect() {
+        return select;
     }
 }

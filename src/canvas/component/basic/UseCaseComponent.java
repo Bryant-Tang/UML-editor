@@ -36,12 +36,12 @@ public class UseCaseComponent extends BasicComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(getBackground());
         g2d.fillOval(0, 0, getWidth() - 1, getHeight() - 1);
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2));
         g2d.drawOval(1, 1, getWidth() - 2, getHeight() - 2);
+        super.paintComponent(g);
     }
 }
