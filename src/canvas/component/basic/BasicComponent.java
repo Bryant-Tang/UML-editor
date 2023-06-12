@@ -39,7 +39,7 @@ public abstract class BasicComponent extends CanvasComponent {
     }
 
     @Override
-    public void moveWithShift(Point shift) {
+    public void shift(Point shift) {
         setLocation(getX() + shift.x, getY() + shift.y);
     }
 

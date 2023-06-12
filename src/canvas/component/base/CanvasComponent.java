@@ -32,7 +32,7 @@ public abstract class CanvasComponent extends JPanel {
         super.paint(g);
     }
 
-    public void moveWithShift(Point shift) {
+    public void shift(Point shift) {
     }
 
     public Port getPort(Point position) {
