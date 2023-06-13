@@ -2,6 +2,10 @@ package canvas.component.connection.arrow;
 
 import java.awt.Graphics;
 
+/**
+ * a concrete component of an arrow that represent the arrow of a generalization
+ * line in the UML diagram.
+ */
 public class GeneralizationArrow extends Arrow {
     @Override
     protected void paintComponent(Graphics g) {

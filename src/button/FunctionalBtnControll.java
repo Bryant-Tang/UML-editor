@@ -13,6 +13,13 @@ import canvas.mode.AddBasicMode;
 import canvas.mode.AddConnectionMode;
 import canvas.mode.SelectMode;
 
+/**
+ * Controlling all things about the functional buttons, which are the buttons on
+ * the left side of the app.
+ * <p>
+ * use <code>FunctionalBtnControll.getInstance()</code> to get the unique single
+ * instance of this class.
+ */
 public class FunctionalBtnControll {
     // public constant value
     public static final String SELECT_BTN = "select";

@@ -7,10 +7,16 @@ import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
 import canvas.component.factory.GroupComponentFactory;
 
+/**
+ * a concrete ActionMenuItem that group the components selected
+ */
 public class GroupMenuItem extends ActionMenuItem {
     // constant value
     static String groupMenuItemText = "group";
 
+    /**
+     * a concrete ActionMenuItem that group the components selected
+     */
     public GroupMenuItem() {
         super(groupMenuItemText);
     }

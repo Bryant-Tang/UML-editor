@@ -10,12 +10,22 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
+/**
+ * a concrete component that represent the use case component in the UML class
+ * diagram.
+ */
 public class UseCaseComponent extends BasicComponent {
     // constant value
     static double sqrt2 = Math.sqrt(2);
     static int borderThick = 1;
     static Point leftTop = Calculate.ZERO_POINT;
 
+    /**
+     * construct a UseCaseComponent.
+     * 
+     * @param position the initial position of this component
+     * @param name     the initial name of this component
+     */
     public UseCaseComponent(Point position, String name) {
         super(position, name);
         this.setLayout(null);

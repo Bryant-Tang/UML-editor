@@ -5,6 +5,11 @@ import java.awt.Point;
 import canvas.component.base.CanvasComponent;
 import main.Calculate;
 
+/**
+ * a Port provide a point to connect a BasicComponent
+ * <p>
+ * use <code>getPosition()</code> to get the point
+ */
 public class Port {
     // public constant value
     public static final String TOP_SIDE = "top";

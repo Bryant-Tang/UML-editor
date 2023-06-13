@@ -14,6 +14,11 @@ import javax.swing.UIManager;
 import canvas.CanvasControll;
 import canvas.mode.Mode;
 
+/**
+ * a FunctionalButton is the button on the left side of the app.
+ * <p>
+ * change canvas mode to the mode containing inside this instance.
+ */
 public class FunctionalButton extends JButton implements FocusListener {
     // constant value
     static String buttonUIManagerKey = "Button.border";
@@ -23,6 +28,12 @@ public class FunctionalButton extends JButton implements FocusListener {
     // the mode to set to Cancas when this button be clicked
     private Mode mode;
 
+    /**
+     * construct a FunctionalButton.
+     * 
+     * @param mode the mode to set to canvas, when this button is clicked
+     * @param icon the Icon image to display on the button
+     */
     public FunctionalButton(Mode mode, ImageIcon icon) {
         super(icon);
         this.mode = mode;

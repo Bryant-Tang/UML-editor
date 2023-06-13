@@ -12,10 +12,18 @@ import javax.swing.BorderFactory;
 import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
 
+/**
+ * a component that contain some CanvasComponent
+ */
 public class GroupComponent extends CanvasComponent {
     // record the CanvasComponent inside this component
     ArrayList<CanvasComponent> components = new ArrayList<>();
 
+    /**
+     * construct a GroupComponent
+     * 
+     * @param position the initial position of this component
+     */
     public GroupComponent(Point position) {
         super(position);
         setLayout(null);

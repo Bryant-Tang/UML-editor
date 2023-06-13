@@ -12,6 +12,12 @@ import button.FunctionalBtnControll;
 import canvas.CanvasControll;
 import menu.MenuControll;
 
+/**
+ * Controlling all things about this UML Editor app.
+ * <p>
+ * use <code>UMLEditor.getInstance()</code> to get the unique single
+ * instance of this class.
+ */
 public class UMLEditor {
     // constant value
     static String appTitle = "UML Editor";

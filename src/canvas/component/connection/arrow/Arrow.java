@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 
 import main.Calculate;
 
+/**
+ * a component that is painted as an arrow
+ */
 public abstract class Arrow extends JPanel {
     // public constant value
     public static final String GO_UP = "go_up";

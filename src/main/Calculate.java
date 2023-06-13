@@ -4,6 +4,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Dimension;
 
+/**
+ * a class to do things about math and geometry
+ * <p>
+ * can NOT be construct, just use static access to the methods
+ */
 public class Calculate {
     public static final Point ZERO_POINT = new Point(0, 0);
 

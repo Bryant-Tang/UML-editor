@@ -4,9 +4,15 @@ import java.awt.event.ActionEvent;
 
 import canvas.component.base.CanvasComponent;
 
+/**
+ * a concrete ActionMenuItem that ungroup the component selected
+ */
 public class UngroupMenuItem extends ActionMenuItem {
     static String ungroupMenuItemText = "ungroup";
 
+    /**
+     * a concrete ActionMenuItem that ungroup the component selected
+     */
     public UngroupMenuItem() {
         super(ungroupMenuItemText);
     }

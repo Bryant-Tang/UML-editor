@@ -8,12 +8,21 @@ import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 import canvas.component.factory.ConnectionComponentFactory;
 
+/**
+ * the mode to add ConnectionComponent
+ */
 public class AddConnectionMode extends AddComponentMode {
     // record what type of basic component to add
     private String createType;
     // record the Port of the component that mouse press on
     private Port pressPort;
 
+    /**
+     * construct a AddConnectionMode
+     * 
+     * @param factory    the factory to use to create the component
+     * @param createType the type of the component to create
+     */
     public AddConnectionMode(ConnectionComponentFactory factory, String createType) {
         super(factory);
         this.createType = createType;

@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import canvas.component.Port;
 import main.Calculate;
 
+/**
+ * the base class of the component inside canvas panel.
+ */
 public abstract class CanvasComponent extends JPanel {
     // constant value
     static Dimension defaultSize = new Dimension(1, 1);
@@ -20,6 +23,13 @@ public abstract class CanvasComponent extends JPanel {
     // record the outter CanvasComponent(could be a GroupComponent for now)
     protected CanvasComponent parentCanvasComponent = null;
 
+    /**
+     * construct a CanvasComponent.
+     * <p>
+     * all subclass should pass a Point as the initial position to this constructor
+     * 
+     * @param position the initial position of this component
+     */
     protected CanvasComponent(Point position) {
         super();
         this.setLocation(position);

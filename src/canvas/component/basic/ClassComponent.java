@@ -10,6 +10,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
+/**
+ * a concrete component that represent the class component in the UML class
+ * diagram.
+ */
 public class ClassComponent extends BasicComponent {
     // constant value
     static String emptyContent = " ";
@@ -17,6 +21,12 @@ public class ClassComponent extends BasicComponent {
     static Dimension dividingLineSize = new Dimension(Integer.MAX_VALUE, 1);
     static int dividingLineThick = 1;
 
+    /**
+     * construct a ClassComponent.
+     * 
+     * @param position the initial position of this component
+     * @param name     the initial name of this component
+     */
     public ClassComponent(Point position, String name) {
         super(position, name);
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

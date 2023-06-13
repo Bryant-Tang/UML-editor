@@ -16,6 +16,13 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controlling all things about the canvas, which is the center canvas area of
+ * the app.
+ * <p>
+ * use <code>CanvasControll.getInstance()</code> to get the unique single
+ * instance of this class.
+ */
 public class CanvasControll {
     // constant value
     static Dimension canvasPanelPreferredSize = new Dimension(600, 600);

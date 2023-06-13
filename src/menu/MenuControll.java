@@ -7,6 +7,12 @@ import menu.item.GroupMenuItem;
 import menu.item.RenameMenuItem;
 import menu.item.UngroupMenuItem;
 
+/**
+ * Controlling all things about the menu on the top side of this app.
+ * <p>
+ * use <code>MenuControll.getInstance()</code> to get the unique single
+ * instance of this class.
+ */
 public class MenuControll {
     // constant value
     static String fileMenuText = "File";

@@ -10,6 +10,10 @@ import canvas.component.base.CanvasComponent;
 import canvas.component.connection.arrow.Arrow;
 import main.Calculate;
 
+/**
+ * a concrete component that represent the connection between two basic class in
+ * the UML class diagram.
+ */
 public class ConnectionComponent extends CanvasComponent {
     // constant value
     static Point leftTopPosition = Calculate.ZERO_POINT;
@@ -22,6 +26,12 @@ public class ConnectionComponent extends CanvasComponent {
     // the arrow of this connection
     private Arrow arrow;
 
+    /**
+     * construct a ConnectionComponent
+     * 
+     * @param startPort the start point(as a Port) of this connection
+     * @param endPort   the end point(as a Port) of this connection
+     */
     public ConnectionComponent(Port startPort, Port endPort) {
         super(leftTopPosition);
         setConnect(startPort, endPort);

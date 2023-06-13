@@ -12,6 +12,10 @@ import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 import main.Calculate;
 
+/**
+ * a BasicComponent is a CanvasComponent that
+ * have name and port.
+ */
 public abstract class BasicComponent extends CanvasComponent {
     // constant value
     static int borderThick = 1;
@@ -23,6 +27,12 @@ public abstract class BasicComponent extends CanvasComponent {
     // the Panel that contain the name Label
     protected JPanel namePanel = new JPanel();
 
+    /**
+     * construct a BasicComponent.
+     * 
+     * @param position the initial position of this component
+     * @param name     the initial name of this component
+     */
     protected BasicComponent(Point position, String name) {
         super(position);
         initName(name);

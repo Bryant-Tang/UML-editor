@@ -6,6 +6,9 @@ import java.util.List;
 import canvas.component.base.CanvasComponent;
 import canvas.component.group.GroupComponent;
 
+/**
+ * the factory that create GroupComponent
+ */
 public class GroupComponentFactory extends CanvasComponentFactory {
 
     private Point getLeftTop(List<CanvasComponent> components) {

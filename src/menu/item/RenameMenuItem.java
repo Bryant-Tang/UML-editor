@@ -7,12 +7,18 @@ import javax.swing.JOptionPane;
 
 import canvas.component.base.CanvasComponent;
 
+/**
+ * a concrete ActionMenuItem that rename the component selected
+ */
 public class RenameMenuItem extends ActionMenuItem {
     // constant value
     static String renameMenuItemText = "rename";
     static String renameDialogMessage = "Enter new name:";
     static String renameDialogTitle = "Change Name";
 
+    /**
+     * a concrete ActionMenuItem that rename the component selected
+     */
     public RenameMenuItem() {
         super(renameMenuItemText);
     }

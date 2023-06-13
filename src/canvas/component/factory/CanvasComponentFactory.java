@@ -6,6 +6,9 @@ import java.util.List;
 import canvas.component.Port;
 import canvas.component.base.CanvasComponent;
 
+/**
+ * the base class of all factory that create CanvasComponent
+ */
 public abstract class CanvasComponentFactory {
     /**
      * create CanvasComponent

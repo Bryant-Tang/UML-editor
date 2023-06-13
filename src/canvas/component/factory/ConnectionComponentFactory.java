@@ -7,6 +7,9 @@ import canvas.component.connection.arrow.AssociationArrow;
 import canvas.component.connection.arrow.CompositionArrow;
 import canvas.component.connection.arrow.GeneralizationArrow;
 
+/**
+ * the factory that create ConnectionComponent
+ */
 public class ConnectionComponentFactory extends CanvasComponentFactory {
     public static final String ASSOCIATION = "association";
     public static final String COMPOSITION = "composition";

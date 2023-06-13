@@ -7,6 +7,9 @@ import canvas.CanvasControll;
 import canvas.component.base.CanvasComponent;
 import main.Calculate;
 
+/**
+ * the mode to select or move component
+ */
 public class SelectMode extends Mode {
     // record the Point that mouse press on
     Point pressPoint = null;

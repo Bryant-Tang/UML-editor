@@ -6,6 +6,9 @@ import canvas.component.base.CanvasComponent;
 import canvas.component.basic.ClassComponent;
 import canvas.component.basic.UseCaseComponent;
 
+/**
+ * the factory that create BasicComponent
+ */
 public class BasicComponentFactory extends CanvasComponentFactory {
     // public constant value
     public static final String CLASS = "class";
